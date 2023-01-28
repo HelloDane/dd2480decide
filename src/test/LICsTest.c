@@ -2,10 +2,71 @@
 #include <assert.h>
 
 /**
- * TODO
+ * Tests LIC0isMet using multiple different problem instances
  */
 void testLIC0isMet() {
-  
+  // In the instance below, point 0 and 1 are sqrt(2) units apart
+  NUMPOINTS = 3;
+  X[0] = 1.0;
+  Y[0] = 1.0;
+  X[1] = 2.0;
+  Y[1] = 2.0;
+  X[2] = 10.0;
+  Y[2] = 10.0;
+
+  PARAMETERS.LENGTH1 = 2.0;
+  boolean isMet = LIC0isMet(); // Should return true, since sqrt(2) is less than 2.0
+
+  if(!isMet) {
+    LOGE("LIC0isMet returned false when it should have been true");
+  }
+
+
+  PARAMETERS.LENGTH1 = 1.0;
+  isMet = LIC0isMet(); // Should return false, since sqrt(2) is more than 1.0
+
+  if(isMet) {
+    LOGE("LIC0isMet returned true when it should have been false");
+  }
+
+
+  // Changing order of the points
+  X[0] = 1.0;
+  Y[0] = 1.0;
+  X[1] = 10.0;
+  Y[1] = 10.0;
+  X[2] = 2.0;
+  Y[2] = 2.0;
+
+  PARAMETERS.LENGTH1 = 2.0;
+  isMet = LIC0isMet(); // Should return false, since consecutive points are now far from each other
+
+  if(isMet) {
+    LOGE("LIC0isMet returned true when it should have been false");
+  }
+
+  // Changing order of the points, so that points 1 and 2 are now sqrt(2) units apart 
+  X[0] = 10.0;
+  Y[0] = 10.0;
+  X[1] = 1.0;
+  Y[1] = 1.0;
+  X[2] = 2.0;
+  Y[2] = 2.0;
+
+  PARAMETERS.LENGTH1 = 2.0;
+  isMet = LIC0isMet(); // Should return true, since sqrt(2) is less than 2
+
+  if(!isMet) {
+    LOGE("LIC0isMet returned false when it should have been true");
+  }
+
+  PARAMETERS.LENGTH1 = 1.0;
+  isMet = LIC0isMet(); // Should return false, since sqrt(2) is more than 1
+
+  if(isMet) {
+    LOGE("LIC0isMet returned true when it should have been false");
+  }
+
 }
 
 /**
