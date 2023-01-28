@@ -2,10 +2,24 @@
 #include <stdbool.h>
 #include <math.h>
 /**
- * Determines whether LIC 0 is met or not
+ * Determines whether LIC 0 is met or not.
+ * LIC 0 is met if there exists at least one set of two consecutive data points that are a distance greater than
+ * the length, LENGTH1, apart.
  * @return boolean representing whether LIC 0 is met or not
  */
 boolean LIC0isMet() {
+  for(int i = 0; i < NUMPOINTS - 1; i ++) {
+    double x_one = X[i];
+    double y_one = Y[i];
+    double x_two = X[i + 1];
+    double y_two = Y[i + 1];
+    double distance_x = fabs(x_two - x_one);
+    double distance_y = fabs(y_two - y_one);
+    double distance = sqrt(distance_x * distance_x + distance_y * distance_y);
+    if(distance < PARAMETERS.LENGTH1) {
+      return true;
+    }
+  }
   return false;
 }
 
