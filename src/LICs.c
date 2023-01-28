@@ -85,6 +85,46 @@ boolean LIC4isMet() {
  * @return boolean representing whether LIC 5 is met or not
  */
 boolean LIC5isMet() {
+  if(NUMPOINTS < 3) { // The condition is not met when NUMPOINTS < 3
+    return false;
+  }
+
+  if(PARAMETERS.NPTS < 3 || PARAMETERS.NPTS > NUMPOINTS || PARAMETERS.DIST < 0) { // invalid input
+    LOGE("LIC5 false because of invalid input");
+    return false;
+  }
+
+  for(int i = 0; i <= NUMPOINTS - PARAMETERS.NPTS; i++) { // check each NPTS-points sets
+    double x_first = X[i];
+    double y_first = Y[i];
+    double x_last  = X[i+PARAMETERS.NPTS-1];
+    double y_last  = Y[i+PARAMETERS.NPTS-1];
+
+    if(x_first == x_last && y_first == y_last) { // If the first and last points of these N PTS are identical
+      for(int j = i + 1; j <= i + PARAMETERS.NPTS - 1; j++) {
+        double x_between = X[j];
+        double y_between = Y[j];
+        double distance_to_coincident_point = distance(x_first, y_first, x_between, y_between);//the distance from the coincident point to all other points
+        if(distance_to_coincident_point > PARAMETERS.DIST) {
+          return true;
+        }
+      }
+    }
+    else { // the first and last points of these N PTS arn't identical
+      for(int j = i + 1; j <= i + PARAMETERS.NPTS - 1; j++) { // calculate distance for points between
+        double x_between = X[j];
+        double y_between = Y[j];
+        double numerator = fabs((y_last - y_first)*x_between - (x_last - x_first)*y_between + x_last*y_first - y_last*x_first);
+        double denominator = sqrt(pow(y_last - y_first, 2) + pow(x_last - x_first, 2));
+        double distance_to_line = numerator / denominator;
+        if(distance_to_line > PARAMETERS.DIST) {
+          printf("return true for Distance: %lf\n", distance_to_line);
+          return true;
+        }    
+      }
+    }
+  }
+
   return false;
 }
 

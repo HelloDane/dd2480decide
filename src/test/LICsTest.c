@@ -160,7 +160,74 @@ void testLIC4isMet() {
  * TODO
  */
 void testLIC5isMet() {
-  
+  /*
+  testcase 1: one distance greater than DIST
+    X = {1, 2.5, 3, 3}
+    Y = {1, 1, 3, 1}
+    NUMPOINTS = 4
+    NPTS = 4
+    DIST = 0.8
+  expected return: true
+  */
+  X[0] = 1; X[1] = 2.5; X[2] = 3; X[3] = 3;
+  Y[0] = 1; Y[1] = 1; Y[2] = 3; Y[3] = 1;
+  NUMPOINTS = 4;
+  PARAMETERS.NPTS = 4;
+  PARAMETERS.DIST = 0.8;
+  if(!LIC5isMet()) {
+    LOGE("testLIC5isMet failed");
+  }
+  /*
+  testcase 2: all distance smaller than DIST
+    X = {1, 2, 2.5, 5}
+    Y = {1, 2, 1, 1}
+    NUMPOINTS = 4
+    NPTS = 4
+    DIST = 3
+  expected return: false
+  */
+  X[0] = 1; X[1] = 2; X[2] = 2.5; X[3] = 5;
+  Y[0] = 1; Y[1] = 2; Y[2] = 1; Y[3] = 1;
+  NUMPOINTS = 4;
+  PARAMETERS.NPTS = 4;
+  PARAMETERS.DIST = 3;
+  if(LIC5isMet()) {
+    LOGE("testLIC5isMet failed");
+  }
+  /*
+  testcase 3: a case that first and last point are identical
+    X = {0, 2, 0, 2}
+    Y = {0, 0, 0, 0}
+    NUMPOINTS = 4
+    N_PTS = 3
+    DIST = 1.5
+  expected return: true
+  */
+  X[0] = 0; X[1] = 2; X[2] = 0; X[3] = 2;
+  Y[0] = 0; Y[1] = 0; Y[2] = 0; Y[3] = 0;
+  NUMPOINTS = 4;
+  PARAMETERS.NPTS = 3;
+  PARAMETERS.DIST = 1.5;
+  if(!LIC5isMet()) {
+    LOGE("testLIC5isMet failed");
+  }
+  /*
+  testcase 4: NUMPOINTS < 3
+    X = {0, 2, 0, 2}
+    Y = {0, 0, 0, 0}
+    NUMPOINTS = 2
+    N_PTS = 3
+    DIST = 1.5
+  expected return: false
+  */
+  X[0] = 0; X[1] = 2; X[2] = 0; X[3] = 2;
+  Y[0] = 0; Y[1] = 0; Y[2] = 0; Y[3] = 0;
+  NUMPOINTS = 2;
+  PARAMETERS.NPTS = 3;
+  PARAMETERS.DIST = 1.5;
+  if(LIC5isMet()) {
+    LOGE("testLIC5isMet failed");
+  }
 }
 
 /**
