@@ -1,6 +1,6 @@
 #include "decide.h"
 #include <stdbool.h>
-
+#include <math.h>
 /**
  * Determines whether LIC 0 is met or not
  * @return boolean representing whether LIC 0 is met or not
@@ -22,6 +22,31 @@ boolean LIC1isMet() {
  * @return boolean representing whether LIC 2 is met or not
  */
 boolean LIC2isMet() {
+  for (int i = 0; i < NUMPOINTS - 2; i++) {
+    double x1 = X[i];
+    double y1 = Y[i];
+    double x2 = X[i + 1]; // vertex point
+    double y2 = Y[i + 1];
+    double x3 = X[i + 2];
+    double y3 = Y[i + 2];
+
+    if(x1 == x2 && y1 == y2) { // point 1 concides with point 2
+      return false;
+    }
+    else if(x2 == x3 && y2 == y3) { // point 2 concides with point 3
+      return false;
+    }
+    else if (x1 == x3 && y1 == y3) { // point 1 concides with point 3
+      return false;
+    }
+
+    double angle = atan2(y3 - y2, x3 - x2) - atan2(y1 - y2, x1 - x2);
+    angle = fmod(angle + 2 * PI, 2 * PI);
+
+    if (DOUBLECOMPARE(angle, (PI - PARAMETERS.EPSILON)) == LT || DOUBLECOMPARE(angle, (PI + PARAMETERS.EPSILON)) == GT) {
+        return true;
+    }
+  }
   return false;
 }
 
