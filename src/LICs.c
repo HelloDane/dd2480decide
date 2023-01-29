@@ -303,11 +303,63 @@ boolean LIC7isMet() {
   return false;
 }
 
+
+double radius(double x1, double y1, double x2, double y2, double x3, double y3) {
+  double a=((y2-y1)*(y3*y3-y1*y1+x3*x3-x1*x1)-(y3-y1)*(y2*y2-y1*y1+x2*x2-x1*x1))/(2.0*((x3-x1)*(y2-y1)-(x2-x1)*(y3-y1)));
+  double b=((x2-x1)*(x3*x3-x1*x1+y3*y3-y1*y1)-(x3-x1)*(x2*x2-x1*x1+y2*y2-y1*y1))/(2.0*((y3-y1)*(x2-x1)-(y2-y1)*(x3-x1)));
+  double radius=sqrt((x1-a)*(x1-a)+(y1-b)*(y1-b));
+
+  #ifdef DEBUG
+  printf("points: (%f, %f) (%f, %f) (%f, %f)\n",x1, y1, x2, y2, x3, y3);
+  // printf("center: (%f, %f)\n", cx, cy);
+  printf("radius: %f\n", radius);
+  #endif
+  return radius;
+}
 /**
  * Determines whether LIC 8 is met or not
  * @return boolean representing whether LIC 8 is met or not
  */
 boolean LIC8isMet() {
+  if(NUMPOINTS < 5) { // not met when NUMPOINTS < 5
+    return false;
+  }
+  int a_pts = PARAMETERS.APTS;
+  int b_pts = PARAMETERS.BPTS;
+  double x1, x2, x3, y1, y2, y3;
+  if(a_pts < 1 || b_pts < 1 || (a_pts + b_pts > NUMPOINTS - 3)) { // invalid input
+    return false;
+  }
+
+  for (int i = 0; i < NUMPOINTS - (a_pts + b_pts + 2); i++) { // first point (X[i], Y[i])
+        for (int j = i + a_pts + 1; j < NUMPOINTS - (b_pts + 1); j++) { // second point (X[j], Y[j])
+            for (int k = j + b_pts + 1; k < NUMPOINTS; k++) { // third point (X[k], Y[k])
+              x1 = X[i];x2 = X[j];x3 = X[k];
+              y1 = Y[i];y2 = Y[j];y3 = Y[k];
+              // if 3 points in the same line, the formula below will give zero division error.
+              if (((x3-x1)*(y2-y1)-(x2-x1)*(y3-y1)) == 0 || ((y3-y1)*(x2-x1)-(y2-y1)*(x3-x1)) == 0) {
+                // just check if RADIUS1 > half the line length
+                double max_distance = 0;
+                double a = distance(x1,y1,x2,y2);
+                double b = distance(x1,y1,x3,y3);
+                double c = distance(x2,y2,x3,y3);
+                max_distance = a>b?a:b;
+                max_distance = c>max_distance?c:max_distance;
+                #ifdef DEBUG
+                printf("points: (%f, %f) (%f, %f) (%f, %f)\n",x1, y1, x2, y2, x3, y3);
+                printf("max_distance: %f\n", max_distance);
+                #endif
+                if(max_distance / 2 > PARAMETERS.RADIUS1) { // cannot contain 3 points
+                  return true;
+                }
+              } 
+              else if (radius(x1, y1, x2, y2, x3, y3) > PARAMETERS.RADIUS1) {// Check if the three points are not within or on the circle
+                  return true;
+              }
+            }
+        }
+  }
+
   return false;
 }
 

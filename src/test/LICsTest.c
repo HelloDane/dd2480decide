@@ -493,7 +493,52 @@ void testLIC7isMet() {
  * TODO
  */
 void testLIC8isMet() {
-  
+  /*
+  testcase 1: can be contained within or on a circle of radius RADIUS1
+    X = {1, 0, 2, 0, 3}
+    Y = {1, 0, 2, 0, 1}
+  expected return: false
+  */
+  X[0]=1;X[1]=0;X[2]=2;X[3]=0;X[4]=3; 
+  Y[0]=1;Y[1]=0;Y[2]=2;Y[3]=0;Y[4]=1;
+  PARAMETERS.RADIUS1 = 1;
+  PARAMETERS.APTS = 1;
+  PARAMETERS.BPTS = 1;
+  NUMPOINTS = 5;
+  if(LIC8isMet()) {
+    LOGE("testLIC8isMet failed");
+  }
+  /*
+  testcase 2: can not be contained
+    X = {0, 0, 2, 0, 0, -3}
+    Y = {0, 0, 2, 0, 0, -1}
+  expected return: true
+  */
+  X[0]=0;X[1]=0;X[2]=-2;X[3]=0;X[4]=0;X[5]=-2; 
+  Y[0]=0;Y[1]=0;Y[2]=0;Y[3]=0;Y[4]=0;Y[5]=-1;
+  PARAMETERS.RADIUS1 = 1;
+  PARAMETERS.APTS = 1;
+  PARAMETERS.BPTS = 2;
+  NUMPOINTS = 6;
+  if(!LIC8isMet()) {
+    LOGE("testLIC8isMet failed");
+  }
+  /*
+  testcase 3: three points on a line
+    X = {1, 0, -3, 0, 0, 3}
+    Y = {1, 0, -3, 0, 0, 3}
+  expected return: false
+  */
+  X[0]=1;X[1]=0;X[2]=-3;X[3]=0;X[4]=0;X[5]=3; 
+  Y[0]=1;Y[1]=0;Y[2]=-3;Y[3]=0;Y[4]=0;Y[5]=3;
+  PARAMETERS.RADIUS1 = 9;
+  PARAMETERS.APTS = 1;
+  PARAMETERS.BPTS = 2;
+  NUMPOINTS = 6;
+  if(LIC8isMet()) {
+    LOGE("testLIC8isMet failed");
+  }
+
 }
 
 /**
