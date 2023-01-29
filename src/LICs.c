@@ -156,6 +156,56 @@ boolean LIC13isMet() {
  * Determines whether LIC 14 is met or not
  * @return boolean representing whether LIC 14 is met or not
  */
+#define DEBUG
 boolean LIC14isMet() {
+  if(NUMPOINTS < 5) {
+    return false;
+  }
+  if(PARAMETERS.AREA2 < 0) { //invalid input
+    return false;
+  }
+  boolean flag1 = false;
+  boolean flag2 = false;
+  int e_pts = PARAMETERS.EPTS;
+  int f_pts = PARAMETERS.FPTS;
+  double a, b, c, p, area;
+  double x1, y1, x2, y2, x3, y3;
+ for (int i = 0; i < NUMPOINTS - (e_pts + f_pts + 2); i++) { // first point (X[i], Y[i])
+  x1 = X[i];
+  y1 = Y[i];
+  for (int j = i + e_pts + 1; j < NUMPOINTS - (f_pts + 1); j++) { // second point (X[j], Y[j])
+    x2 = X[j];
+    y2 = Y[j];
+    for (int k = j + f_pts + 1; k < NUMPOINTS; k++) { // third point (X[k], Y[k])
+      x3 = X[k];
+      y3 = Y[k];
+      a = distance(x1, y1, x2, y2);
+      b = distance(x2, y2, x3, y3);
+      c = distance(x1, y1, x3, y3);
+      p = (a + b + c) / 2.0;
+      area = sqrt (p * (p - a) * (p - b) * (p - c));
+
+      if(area > PARAMETERS.AREA1) {
+        #ifdef DEBUG
+        printf("flag1 true for area = %f\n", area);
+        printf("AREA1 = %f\n", PARAMETERS.AREA1);
+        #endif
+        flag1 = true;
+      }
+      if(area < PARAMETERS.AREA2) {
+        #ifdef DEBUG
+        printf("flag2 true for area = %f\n",area);
+        printf("AREA2 = %f\n", PARAMETERS.AREA2);
+        #endif
+        flag2 = true;
+      }
+    }
+  }
+ }
+  if(flag1) {
+    if(flag2) {
+      return true;
+    }
+  }
   return false;
 }
