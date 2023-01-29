@@ -192,10 +192,91 @@ void testLIC9isMet() {
 }
 
 /**
- * TODO
+ * Test cases for LIC10isMet function
  */
 void testLIC10isMet() {
+  /*
+  testcase 1: Invalid input parameters but valid triangle area.
+    NUMPOINTS = 4
+    EPTS = 1
+    FPTS = 0
+    AREA1 = 0
+    X[0] = 0;X[1] = 0;X[2] = -1;X[3] = 1;
+    Y[0] = 0;Y[1] = -1;Y[2] = 0;Y[3] = 1;
+  expected return: false
+  */
+  NUMPOINTS = 4;
+  PARAMETERS.EPTS = 1;
+  PARAMETERS.FPTS = 0;
+  PARAMETERS.AREA1 = 0;
+  X[0] = 0;X[1] = 0;X[2] = -1;X[3] = 1;
+  Y[0] = 0;Y[1] = -1;Y[2] = 0;Y[3] = 1;
+  if (LIC10isMet()) {
+    LOGE("FAILURE, testcase 1. Expected: false.");
+  }
+
+  /*
+  testcase 2: Valid triangle according to requirements.
+    NUMPOINTS = 5
+    EPTS = 1
+    FPTS = 1
+    AREA1 = 0.49
+    X[0] = 0;X[1] = -1;X[2] = 0;X[3] = 1; X[4] = 1;
+    Y[0] = 0;Y[1] = -1;Y[2] = 1;Y[3] = 1; Y[4] = 0;
+    |(0 * (0 - 1) + -1 * (1 - 0) + 1 * (0-0))/2| = 0.5
+  expected return: true
+  */
+  NUMPOINTS = 5;
+  PARAMETERS.EPTS = 1;
+  PARAMETERS.FPTS = 1;
+  PARAMETERS.AREA1 = 0.49;
+  X[0] = 0;X[1] = -1;X[2] = 0;X[3] = 1; X[4] = 1;
+  Y[0] = 0;Y[1] = -1;Y[2] = 1;Y[3] = 1; Y[4] = 0;
+  if (!LIC10isMet()) {
+    LOGE("FAILURE, testcase 2. Expected: true.");
+  }
+
+  /*
+  testcase 3: No valid triangle greater than area.
+    NUMPOINTS = 5
+    EPTS = 1
+    FPTS = 1
+    AREA1 = 0.5
+    X[0] = 0;X[1] = -1;X[2] = 0;X[3] = 1; X[4] = 1;
+    Y[0] = 0;Y[1] = -1;Y[2] = 1;Y[3] = 1; Y[4] = 0;
+    |(0 * (0 - 1) + -1 * (1 - 0) + 1 * (0-0))/2| = 0.5
+  expected return: false
+  */
+  NUMPOINTS = 5;
+  PARAMETERS.EPTS = 1;
+  PARAMETERS.FPTS = 1;
+  PARAMETERS.AREA1 = 0.5;
+  X[0] = 0;X[1] = -1;X[2] = 0;X[3] = 1; X[4] = 1;
+  Y[0] = 0;Y[1] = -1;Y[2] = 1;Y[3] = 1; Y[4] = 0;
+  if (LIC10isMet()) {
+    LOGE("FAILURE, testcase 3. Expected: false.");
+  }
   
+  /*
+  testcase 4: Points which can make a big enough triangle exist, but no such points are found with the specified separation.
+    NUMPOINTS = 6
+    EPTS = 1
+    FPTS = 2
+    AREA1 = 1
+    X[0] = 0;X[1] = -10;X[2] = 0;X[3] = 1; X[4] = 10;  X[5] = 1;
+    Y[0] = 0;Y[1] = -10;Y[2] = 1;Y[3] = 1; Y[4] = 0; Y[5] = 0;
+    Using any of the points XY[2] or XY[4] is required to get a big enough area.
+  expected return: false
+  */
+  NUMPOINTS = 6;
+  PARAMETERS.EPTS = 1;
+  PARAMETERS.FPTS = 2;
+  PARAMETERS.AREA1 = 1;
+  X[0] = 0;X[1] = -10;X[2] = 0;X[3] = 1; X[4] = 10;  X[5] = 1;
+  Y[0] = 0;Y[1] = -10;Y[2] = 1;Y[3] = 1; Y[4] = 0; Y[5] = 0;
+  if (LIC10isMet()) {
+    LOGE("FAILURE, testcase 4. Expected: false.");
+  }
 }
 
 /**

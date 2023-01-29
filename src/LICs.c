@@ -122,9 +122,26 @@ boolean LIC9isMet() {
 
 /**
  * Determines whether LIC 10 is met or not
+ * There exists at least one set of three data points separated by exactly E PTS and F PTS consecutive intervening points, 
+ * respectively, that are the vertices of a triangle with area greater than AREA1. The condition is not met when NUMPOINTS < 5.
  * @return boolean representing whether LIC 10 is met or not
  */
 boolean LIC10isMet() {
+  if (NUMPOINTS < 5 || PARAMETERS.EPTS < 1 || PARAMETERS.FPTS < 1) {
+    return false;
+  }
+  for (int i = 0; i < (NUMPOINTS - PARAMETERS.EPTS - PARAMETERS.FPTS - 2); i++) {
+    double x1 = X[i];
+    double y1 = Y[i];
+    double x2 = X[i + PARAMETERS.EPTS + 1];
+    double y2 = Y[i + PARAMETERS.EPTS + 1];
+    double x3 = X[i + PARAMETERS.EPTS + 1 + PARAMETERS.FPTS + 1];
+    double y3 = Y[i + PARAMETERS.EPTS + 1 + PARAMETERS.FPTS + 1];
+    //Area of a triangle = (Ax(By-Cy)+Bx(Cy-Ay)+Cx(Ay-By))/2
+    if (fabs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))/2 > PARAMETERS.AREA1) {
+      return true;
+    }
+  }
   return false;
 }
 
