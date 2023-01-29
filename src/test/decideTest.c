@@ -83,6 +83,14 @@ void calculatePUMTest() {
  * Third test randomly sets a random number of indexes of FUV to false (could set 0 of them), and makes sure LAUNCH is set accordingly.
  */
 void calculateFUVTest() {
+
+}
+
+/**
+ * Tests the decideLaunch-function
+ * 
+ */
+void decideLaunchTest() {
   for(int i = 0; i < 15; i ++) {
     FUV[i] = 1;
   }
@@ -132,14 +140,6 @@ void calculateFUVTest() {
       LOGE("LAUNCH was set to false by decideLaunch() when it should have been set to true");
     }
   }
-}
-
-/**
- * Tests the decideLaunch-function
- * 
- */
-void decideLaunchTest() {
-
 }
 
 /**
