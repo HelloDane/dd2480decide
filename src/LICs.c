@@ -469,9 +469,85 @@ boolean LIC11isMet() {
 
 /**
  * Determines whether LIC 12 is met or not
+ * Requires
+ * NUMPOINTS
+ * PARAMETERS.LENGTH1
+ * PARAMETERS.LENGTH2
+ * PARAMETERS.KPTS
  * @return boolean representing whether LIC 12 is met or not
  */
 boolean LIC12isMet() {
+  if(NUMPOINTS < 3) {
+    return false;
+  }
+
+  if(PARAMETERS.LENGTH2 < 0) {
+    return false; // Invalid input
+  }
+
+  int points_needed = 2 + PARAMETERS.KPTS;
+
+  // First criteria
+  boolean found_set_that_fulfills_first_criteria = false;
+  for(int i = 0; i < NUMPOINTS - points_needed + 1; i ++) {
+    // Check intervening points
+    boolean true_for_this_set = true;
+    for(int j = i + 1; j < i + PARAMETERS.KPTS + 1; j ++) {
+      // Check distance to all intervening points after this one
+      // This makes sure each intervening point checks its distance to all other intervening points
+      for(int k = j + 1; k < i + PARAMETERS.KPTS + 1; k ++) {
+        double distance = sqrt(pow(X[j] - X[k], 2) + pow(Y[j] - Y[k], 2));
+        if(distance <= PARAMETERS.LENGTH1) {
+          // Some pair of intervening points do not fullfill, stop checking rest
+          true_for_this_set = false;
+          break;
+        }
+      }
+      if(!true_for_this_set) {
+        // Some pair of intervening points do not fullfill, stop checking rest
+        break;
+      }
+    }
+    if(true_for_this_set) {
+      // A set fulfills first criteria, no need to check more sets
+      found_set_that_fulfills_first_criteria = true;
+      break;
+    }
+  }
+
+  if(!found_set_that_fulfills_first_criteria) {
+    // First critera was not fulfilled
+    return false;
+  }
+
+  // Second criteria
+  for(int i = 0; i < NUMPOINTS - points_needed + 1; i ++) {
+    // Check intervening points
+    boolean true_for_this_set = true;
+    for(int j = i + 1; j < i + PARAMETERS.KPTS + 1; j ++) {
+      // Check distance to all intervening points after this one
+      // This makes sure each intervening point checks its distance to all other intervening points
+      for(int k = j + 1; k < i + PARAMETERS.KPTS + 1; k ++) {
+        double distance = sqrt(pow(X[j] - X[k], 2) + pow(Y[j] - Y[k], 2));
+        if(distance > PARAMETERS.LENGTH2) {
+          // Some pair of intervening points do not fullfill, stop checking rest
+          true_for_this_set = false;
+          break;
+        }
+      }
+      if(!true_for_this_set) {
+        // Some pair of intervening points do not fullfill, stop checking rest
+        break;
+      }
+    }
+    if(true_for_this_set) {
+      // A set fulfills second criteria, no need to check more sets
+      // Both criterias are fulfilled
+      return true;
+    }
+  }
+
+  // If this point is reached, only first criteria was fulfilled, but not the second
   return false;
 }
 

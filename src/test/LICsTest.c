@@ -714,6 +714,64 @@ void testLIC11isMet() {
  */
 void testLIC12isMet() {
 
+  // Lets have 8 points.
+  // Points 0-3 fulfills first critera while points 4-7 fulfills second critera
+  // This means points 1 and 2 need to be further than PARAMETERS.LENGTH1 apart
+  // and points 5 and 6 need to be closer than PARAMETERS.LENGTH2 apart
+  // Lets space out all other points so that only points 5 and 6 can fulfill the second critera
+  // to make sure that fulfillment is not caused by some other points
+  // All points are placed 4 units apart, except for 5 and 6, which are placed 2 units apart
+  PARAMETERS.KPTS = 2;
+  NUMPOINTS = 8;
+  X[0] = 0;
+  Y[0] = 0;
+
+  X[1] = 4;
+  Y[1] = 0;
+
+  X[2] = 8;
+  Y[2] = 0;
+
+  X[3] = 12;
+  Y[3] = 0;
+
+  X[4] = 16;
+  Y[4] = 0;
+
+  X[5] = 20;
+  Y[5] = 0;
+
+  X[6] = 22;
+  Y[6] = 0;
+
+  X[7] = 26;
+  Y[7] = 0;
+
+  PARAMETERS.LENGTH1 = 3;
+  PARAMETERS.LENGTH2 = 3;
+  // LIC12 should now be met since 2 and 3 are 4 units apart which is > 3
+  // and 5 and 6 are 2 units apart which is < 3, no other points are less than 3 apart
+  boolean isMet = LIC12isMet();
+  if(!isMet) {
+    LOGE("LIC12isMet returned false when it should have returned true");
+  }
+
+  PARAMETERS.LENGTH1 = 3;
+  PARAMETERS.LENGTH2 = 1.8;
+  // LIC12 should now NOT be met since 2 and 3 are 4 units apart which is > 3
+  // BUT 5 and 6 are 2 units apart which is not < 1.8
+  isMet = LIC12isMet();
+  if(isMet) {
+    LOGE("LIC12isMet returned true when it should have returned false");
+  }
+
+  PARAMETERS.LENGTH1 = 5;
+  PARAMETERS.LENGTH2 = 3;
+  // LIC12 should now NOT be met since 2 and 3 are 4 units apart which is not > 5 (no 2 consecutive points are 5 units apart)
+  isMet = LIC12isMet();
+  if(isMet) {
+    LOGE("LIC12isMet returned true when it should have returned false");
+  }
 }
 
 /**
