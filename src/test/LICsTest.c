@@ -247,10 +247,80 @@ void testLIC3isMet() {
 }
 
 /**
- * TODO
+ * Tests LIC4isMet using multiple different problem instances
  */
 void testLIC4isMet() {
-  
+  /*
+  testcase 1: PARAMETERS.QPTS > NUMPOINTS
+    Parameters are invalid.
+  expected return: false
+  */
+  NUMPOINTS = 3;
+  PARAMETERS.QPTS = 4;
+  PARAMETERS.QUADS = 1;
+  X[0] = 0;X[1] = 0;X[2] = -1;
+  Y[0] = 0;Y[1] = -1;Y[2] = 0;
+  if (LIC4isMet()) {
+    LOGE("FAILURE, testcase 1. Expected: false.");
+  }
+
+  /*
+  testcase 2: Consecutive datapoints lie in more than QUADS quadrants.
+    QUADS = 3. Four datapoints, one in each quadrant.
+      X[0] = 1;X[1] = 1;X[2] = -1; X[3] = -1;
+      Y[0] = 1;Y[1] = -1;Y[2] = 1; Y[3] = -1;
+  expected return: true
+  */
+  NUMPOINTS = 4;
+  PARAMETERS.QPTS = 4;
+  PARAMETERS.QUADS = 3;
+  X[0] = 1;X[1] = 1;X[2] = -1; X[3] = -1;
+  Y[0] = 1;Y[1] = -1;Y[2] = 1; Y[3] = -1;
+  if (!LIC4isMet()) {
+    LOGE("FAILURE, testcase 2. Expected: true.");
+  }
+
+  /*
+  testcase 3: Datapoints lie in more than QUADS quadrants, but not in a consecutive set.
+    QUADS = 3. QPTS = 4. Eight datapoints, no valid consecutive set of size QPTS.
+      X[0] = 1; X[5] = 1;X[6] = -1; X[7] = -1;
+      Y[0] = 1; Y[5] = -1;Y[6] = 1; Y[7] = -1;
+
+      X[1] = 1;X[2] = 1; X[3] = 1; X[4] = 1;
+      Y[1] = -1;Y[2] = -1; Y[3] = -1; Y[4] = -1;
+  expected return: false
+  */
+  NUMPOINTS = 8;
+  PARAMETERS.QPTS = 4;
+  PARAMETERS.QUADS = 3;
+  X[0] = 1; X[5] = 1;X[6] = -1; X[7] = -1;
+  Y[0] = 1; Y[5] = -1;Y[6] = 1; Y[7] = -1;
+
+  X[1] = 1;X[2] = 1; X[3] = 1; X[4] = 1;
+  Y[1] = -1;Y[2] = -1; Y[3] = -1; Y[4] = -1;
+            
+
+  if (LIC4isMet()) {
+    LOGE("FAILURE, testcase 3. Expected: false.");
+  }
+
+    /*
+  testcase 4: Data point quadrants are prioritized correctly.
+    QUADS = 2. QPTS = 3. Three datapoints, one of which is on origo.
+      X[0] = 0; X[1] = 1;X[2] = -1;
+      Y[0] = 0; Y[1] = -1;Y[2] = 1;
+    expected return: true
+    */
+  NUMPOINTS = 3;
+  PARAMETERS.QPTS = 3;
+  PARAMETERS.QUADS = 2;
+  X[0] = 0; X[1] = 1;X[2] = -1;
+  Y[0] = 0; Y[1] = -1;Y[2] = 1;
+            
+
+  if (!LIC4isMet()) {
+    LOGE("FAILURE, testcase 4. Expected: true.");
+  }
 }
 
 /**

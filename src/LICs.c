@@ -109,10 +109,62 @@ boolean LIC3isMet() {
 
 /**
  * Determines whether LIC 4 is met or not
+ * There exists at least one set of Q_PTS consecutive data points that lie in more than QUADS
+ * quadrants. Where there is ambiguity as to which quadrant contains a given point, priority
+ * of decision will be by quadrant number, i.e., I, II, III, IV. For example, the data point (0,0)
+ * is in quadrant I, the point (-l,0) is in quadrant II, the point (0,-l) is in quadrant III, the point
+ * (0,1) is in quadrant I and the point (1,0) is in quadrant I.
  * @return boolean representing whether LIC 4 is met or not
  */
 boolean LIC4isMet() {
-  return false;
+  if (PARAMETERS.QPTS < 2|| PARAMETERS.QPTS > NUMPOINTS || PARAMETERS.QUADS < 1|| PARAMETERS.QUADS > 3) {
+    return false; //Parameters are invalid.
+  }
+  
+  boolean pointInQuad[4]; //Index i refers to quadrant (i+1)
+
+  for (int i = 0; i <= NUMPOINTS - PARAMETERS.QPTS; i++) {
+    for (int j = 0; j < 4; j++){
+      pointInQuad[j] = false;
+    }
+
+    for (int j = 0; j < PARAMETERS.QPTS; j++) { 
+
+      double x = X[i+j]; //Highest possible index is (NUMPOINTS - QPTS + (QPTS-1)) = NUMPOINTS-1
+      double y = Y[i+j];
+
+      // All quadrant signs for (x,y):
+      // I: (+,+), II = (-,+), III = (+,-), IV = (-,-)
+
+        if (y >= 0) {
+          if (x >= 0) { 
+            pointInQuad[0] = true; //I: (+,+)
+          }
+          else { 
+            pointInQuad[1] = true; //II = (-,+)
+          }
+        }
+        else {
+          if (x >= 0) { 
+            pointInQuad[2] = true; //III = (+,-)
+          }
+          else { 
+            pointInQuad[3] = true; //IV = (-,-)
+          }
+        }
+    }
+    int sum = 0;
+    for (int j = 0; j < 4; j++) {
+      if (pointInQuad[j]) {
+        sum ++;
+      }
+    }
+    if (sum > PARAMETERS.QUADS) {
+      return true;
+    }
+  }
+    return false;
+
 }
 
 /**
