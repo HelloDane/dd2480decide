@@ -75,11 +75,18 @@ void calculateFUV() {
 }
 
 /**
- * Calculate and set the global LAUNCH boolean based on the global FUV array
+ * Calculate and set the global LAUNCH boolean based on the global FUV array.
+ * If all values of the FUV array are true, then set LAUNCH to true. Otherwise set LAUNCH to false.
  * 
  */
 void decideLaunch() {
-
+  for(int i = 0; i < 15; i ++) {
+    if(!FUV[i]) {
+      LAUNCH = 0;
+      return;
+    }
+  }
+  LAUNCH = 1;
 }
 
 /**
