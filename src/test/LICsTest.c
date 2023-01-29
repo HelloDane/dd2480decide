@@ -425,9 +425,67 @@ void testLIC6isMet() {
 }
 
 /**
- * TODO
+ * Tests the LIC7isMet function.
  */
 void testLIC7isMet() {
+  /*
+  testcase 1: Invalid input.
+  NUMPOINTS = 3
+  KPTS = 0
+  LENGTH1 = 0
+  X[0] = 1.0;X[1] = 1.0;X[2] = 1.0;
+  Y[0] = 1.0;Y[1] = 1.0;Y[2] = 1.0;
+  Expected return: false
+  */
+  NUMPOINTS = 2;
+  PARAMETERS.KPTS = 0;
+  PARAMETERS.LENGTH1 = 0;
+  X[0] = 1.0;X[1] = 1.0;X[2] = 1.0;
+  Y[0] = 1.0;Y[1] = 1.0;Y[2] = 1.0;
+
+  if(LIC7isMet()){
+    LOGE("FAILURE: testLIC7isMet, testcase 1. Expected: false.");
+  }
+
+  /*
+  testcase 2: Valid input and fullfills having point distance greater than the length, but invalid separation length.
+  NUMPOINTS = 4
+  KPTS = 2
+  LENGTH1 = 1.5
+  X[0] = 0.0;X[1] = 0.0;X[2] = 0.0;X[3] = 0.0;
+  Y[0] = -1.0;Y[1] = 1.0;Y[2] = 1.0;Y[3] = 0.0;
+  Distances (XY0,XY1), (XY0,XY2) are greater than LENGTH1, but not (XY0,XY3), which is 2 KPTS apart.
+  Expected return: false
+  */
+  NUMPOINTS = 4;
+  PARAMETERS.KPTS = 2;
+  PARAMETERS.LENGTH1 = 1.5;
+  X[0] = 0.0;X[1] = 0.0;X[2] = 0.0;X[3] = 0.0;
+  Y[0] = -1.0;Y[1] = 1.0;Y[2] = 1.0;Y[3] = 0.0;
+
+  if(LIC7isMet()){
+    LOGE("FAILURE: testLIC7isMet, testcase 2. Expected: false.");
+  }
+
+  /*
+  testcase 3: Valid input and fullfills having point distance greater than the length, valid separation length.
+  NUMPOINTS = 4
+  KPTS = 2
+  LENGTH1 = 1.5
+  X[0] = 0.0;X[1] = 0.0;X[2] = 0.0;X[3] = 0.0;
+  Y[0] = -1.0;Y[1] = 0.0;Y[2] = 0.0;Y[3] = 1.0;
+  Distances (0,1) and (0,2) are not greater than LENGTH1, but (0,3) is, which is 2 KPTS apart.
+  Expected return: true
+  */
+  NUMPOINTS = 4;
+  PARAMETERS.KPTS = 2;
+  PARAMETERS.LENGTH1 = 1.5;
+  X[0] = 0.0;X[1] = 0.0;X[2] = 0.0;X[3] = 0.0;
+  Y[0] = -1.0;Y[1] = 0.0;Y[2] = 0.0;Y[3] = 1.0;
+
+  if(!LIC7isMet()){
+    LOGE("FAILURE: testLIC7isMet, testcase 3. Expected: true.");
+  }
   
 }
 
