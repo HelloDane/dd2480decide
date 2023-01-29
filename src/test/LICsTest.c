@@ -73,7 +73,59 @@ void testLIC0isMet() {
  * TODO
  */
 void testLIC1isMet() {
-  
+    /*
+  testcase 1: Numpoints < 3 and points are within RADIUS1
+  Three points are needed to be able to return true.
+  Expected return: false
+  */
+  NUMPOINTS = 2;
+  PARAMETERS.RADIUS1 = 5;
+  X[0] = 1.0;
+  Y[0] = 1.0;
+  X[1] = 2.0;
+  Y[1] = 2.0;
+  if(LIC1isMet()){
+    LOGE("FAILURE: testLIC1isMet, testcase 1. Expected: false.");
+  }
+
+  /*
+  testcase 2: Numpoints >= 3 and points are within a RADIUS1 circle
+  Points (1,1), (2,2), (4,4) can fit in a circle with radius 2.15.
+  Longest distance is between (1,1) and (4,4) (~= 4.242 < 2.15*2 = 4.3)
+  Expected return: false
+  */
+  NUMPOINTS = 3;
+  PARAMETERS.RADIUS1 = 2.15;
+  X[0] = 1.0;
+  Y[0] = 1.0;
+  X[1] = 1.0;
+  Y[1] = 2.0;
+  X[2] = 4.0;
+  Y[2] = 4.0;
+
+  if(LIC1isMet()){
+    LOGE("FAILURE: testLIC1isMet, testcase 2. Expected: false.");
+  }
+
+    /*
+  testcase 3: Numpoints >= 3 and points are within a RADIUS1 circle
+  Points (1,1), (5,4), (2,2) cannot fit in a circle with radius 2.15.
+  Longest distance is between (1,1) and (5,4) (~= 4.89 > 2.15*2 = 4.3)
+  Expected return: true
+  */
+  NUMPOINTS = 3;
+  PARAMETERS.RADIUS1 = 2.15;
+  X[0] = 1.0;
+  Y[0] = 1.0;
+  X[1] = 5.0;
+  Y[1] = 4.0;
+  X[2] = 2.0;
+  Y[2] = 2.0;
+
+  if(!LIC1isMet()){
+    LOGE("FAILURE: testLIC1isMet, testcase 3. Expected: true.");
+  }
+
 }
 
 /**

@@ -25,9 +25,28 @@ boolean LIC0isMet() {
 
 /**
  * Determines whether LIC 1 is met or not
+ * True if there exists at least one set of three consecutive data points that cannot all be contained
+ * within or on a circle of radius RADIUS1.
  * @return boolean representing whether LIC 1 is met or not
  */
 boolean LIC1isMet() {
+  if(NUMPOINTS < 3) {
+    return false; // There must be at least 3 points.
+  }
+  for(int i = 0; i < NUMPOINTS - 2; i ++) {
+    double x_1 = X[i];
+    double y_1 = Y[i];
+    double x_2 = X[i + 1];
+    double y_2 = Y[i + 1];
+    double x_3 = X[i + 1];
+    double y_3 = Y[i + 1];
+     // At least one of the distances between the pairs of data points must be greater than the diameter.
+    if (distance(x_1,y_1,x_2,y_2) > PARAMETERS.RADIUS1*2 ||
+        distance(x_2,y_2,x_3,y_3) > PARAMETERS.RADIUS1*2 ||
+        distance(x_3,y_3,x_1,y_1) > PARAMETERS.RADIUS1*2) {
+          return true;
+    }
+  }
   return false;
 }
 
