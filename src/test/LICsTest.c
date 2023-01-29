@@ -305,10 +305,106 @@ void testLIC12isMet() {
 }
 
 /**
- * TODO
+ * Tests for LIC13 function
  */
 void testLIC13isMet() {
-  
+  /*
+  testcase 1: Invalid input, (NUMPOINTS - PARAMETERS.APTS - PARAMETERS.BPTS - 3) < 0
+    NUMPOINTS = 5;
+    PARAMETERS.RADIUS1 = 5;
+    PARAMETERS.RADIUS2 = 3;
+    PARAMETERS.APTS = 1;
+    PARAMETERS.BPTS = 2;
+    X[0] = 1.0;X[1] = 2.0;X[2] = 3.0;X[3] = 4.0;X[4] = 5.0;
+    Y[0] = 1.0;Y[1] = 2.0;Y[2] = 3.0;Y[3] = 4.0;Y[4] = 5.0;
+  Expected return: false
+  */
+  NUMPOINTS = 5;
+  PARAMETERS.RADIUS1 = 5;
+  PARAMETERS.RADIUS2 = 3;
+  PARAMETERS.APTS = 1;
+  PARAMETERS.BPTS = 2;
+  X[0] = 1.0;X[1] = 2.0;X[2] = 3.0;X[3] = 4.0;X[4] = 5.0;
+  Y[0] = 1.0;Y[1] = 2.0;Y[2] = 3.0;Y[3] = 4.0;Y[4] = 5.0;
+  if(LIC13isMet()){
+    LOGE("FAILURE: testcase 1. Expected: false.");
+  }
+
+  /*
+  testcase 2: Valid input parameters and points are outside a RADIUS1 circle and inside a RADIUS2 circle
+    NUMPOINTS = 5;
+    PARAMETERS.RADIUS1 = 2.1;
+    PARAMETERS.RADIUS2 = 2.15;
+    PARAMETERS.APTS = 1;
+    PARAMETERS.BPTS = 1;
+    X[0] = 1.0;X[1] = 2.0;X[2] = 2;X[3] = 1;X[4] = 4;
+    Y[0] = 1.0;Y[1] = 2.0;Y[2] = 2;Y[3] = 1;Y[4] = 4;
+    Coordinates (1,1), (2,2), (4,4) can fit in a circle with radius 2.15, but not 2.1.
+    Longest distance is between (1,1) and (4,4) (~= 4.242 < 2.15*2 = 4.3)
+  Expected return: true
+  */
+  NUMPOINTS = 5;
+  PARAMETERS.RADIUS1 = 2.1;
+  PARAMETERS.RADIUS2 = 2.15;
+  PARAMETERS.APTS = 1;
+  PARAMETERS.BPTS = 1;
+  X[0] = 1.0;X[1] = 2.0;X[2] = 2;X[3] = 1;X[4] = 4;
+  Y[0] = 1.0;Y[1] = 2.0;Y[2] = 2;Y[3] = 1;Y[4] = 4;
+
+  if(!LIC13isMet()){
+    LOGE("FAILURE: testcase 2. Expected: true.");
+  }
+
+  /*
+  testcase 3: Valid input parameters. RADIUS1 requirement fullfilled, but not RADIUS2.
+    NUMPOINTS = 5;
+    PARAMETERS.RADIUS1 = 2.1;
+    PARAMETERS.RADIUS2 = 2.1;
+    PARAMETERS.APTS = 1;
+    PARAMETERS.BPTS = 1;
+    X[0] = 1.0;X[1] = 2.0;X[2] = 2;X[3] = 1;X[4] = 4;
+    Y[0] = 1.0;Y[1] = 2.0;Y[2] = 2;Y[3] = 1;Y[4] = 4;
+    Coordinates (1,1), (2,2), (4,4) can fit in a circle with radius 2.15, but not 2.1.
+    Longest distance is between (1,1) and (4,4) (~= 4.242 < 2.15*2 = 4.3)
+  Expected return: false
+  */
+  NUMPOINTS = 5;
+  PARAMETERS.RADIUS1 = 2.1;
+  PARAMETERS.RADIUS2 = 2.1;
+  PARAMETERS.APTS = 1;
+  PARAMETERS.BPTS = 1;
+  X[0] = 1.0;X[1] = 2.0;X[2] = 2;X[3] = 1;X[4] = 4;
+  Y[0] = 1.0;Y[1] = 2.0;Y[2] = 2;Y[3] = 1;Y[4] = 4;
+
+  if(LIC13isMet()){
+    LOGE("FAILURE: testcase 3. Expected: false.");
+  }
+
+  /*
+  testcase 4: Valid input parameters. RADIUS2 requirement fullfilled, but not RADIUS1.
+    NUMPOINTS = 5;
+    PARAMETERS.RADIUS1 = 2.15;
+    PARAMETERS.RADIUS2 = 2.15;
+    PARAMETERS.APTS = 1;
+    PARAMETERS.BPTS = 1;
+    X[0] = 1.0;X[1] = 2.0;X[2] = 2;X[3] = 1;X[4] = 4;
+    Y[0] = 1.0;Y[1] = 2.0;Y[2] = 2;Y[3] = 1;Y[4] = 4;
+    Coordinates (1,1), (2,2), (4,4) can fit in a circle with radius 2.15, but not 2.1.
+    Longest distance is between (1,1) and (4,4) (~= 4.242 < 2.15*2 = 4.3)
+  Expected return: false
+  */
+  NUMPOINTS = 5;
+  PARAMETERS.RADIUS1 = 2.15;
+  PARAMETERS.RADIUS2 = 2.15;
+  PARAMETERS.APTS = 1;
+  PARAMETERS.BPTS = 1;
+  X[0] = 1.0;X[1] = 2.0;X[2] = 2;X[3] = 1;X[4] = 4;
+  Y[0] = 1.0;Y[1] = 2.0;Y[2] = 2;Y[3] = 1;Y[4] = 4;
+
+  if(LIC13isMet()){
+    LOGE("FAILURE: testcase 4. Expected: false.");
+  }
+
 }
 
 /**
