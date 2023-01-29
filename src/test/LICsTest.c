@@ -667,7 +667,46 @@ void testLIC10isMet() {
  * TODO
  */
 void testLIC11isMet() {
-  
+  /*
+  testcase 1: 
+    X = {1, 1, 3}
+    Y = {1, 1, 2}
+  expected return: true
+  */
+  X[0] = 1;X[1] = 1;X[2] = 3;
+  Y[0] = 1;Y[1] = 1;Y[2] = 2;
+  PARAMETERS.GPTS = 1;
+  NUMPOINTS = 3;
+  if(!LIC11isMet()) {
+    LOGE("testLIC11isMet failed");
+  }
+  /*
+  testcase 2: 
+    X = {3, 1, 1}
+    Y = {-1, 11, 2}
+  expected return: false
+  */
+  X[0] = 3.222;X[1] = 1;X[2] = 1;X[3] = -2; X[4] = -4.8;
+  Y[0] = -1;Y[1] = 11;Y[2] = 2;Y[3] = -5;Y[4] = 3;
+  PARAMETERS.GPTS = 1;
+  NUMPOINTS = 5;
+  if(LIC11isMet()) {
+    LOGE("testLIC11isMet failed");
+  }
+  /*
+  testcase 3: NUMPOINTS < 3 
+    X = {3, 1, 1}
+    Y = {-1, 11, 2}
+  expected return: false
+  */
+  X[0] = 3.222;X[1] = 1;X[2] = 1;X[3] = -2; X[4] = -4.8;
+  Y[0] = -1;Y[1] = 11;Y[2] = 2;Y[3] = -5;Y[4] = 3;
+  PARAMETERS.GPTS = 1;
+  NUMPOINTS = 1;
+  if(LIC11isMet()) {
+    LOGE("testLIC11isMet failed");
+  }
+
 }
 
 /**

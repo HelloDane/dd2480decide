@@ -1,11 +1,13 @@
 #include "decide.h"
 #include <stdio.h>
+#include <stdbool.h>
 
 PARAMETERS_T PARAMETERS;
 int NUMPOINTS = 100;
 double X[100];
 double Y[100];
 boolean FUV[15];
+boolean PUV[15];
 boolean CMV[15];
 boolean PUM[15][15];
 CONNECTORS LCM[15][15];
@@ -38,7 +40,31 @@ void calculateCMV() {
  * 
  */
 void calculatePUM() {
-
+  for(int i = 0; i <= 14; i++) {
+    for(int j = 0; j <= 14; j++) {
+      if(LCM[i][j] == NOTUSED) { //If LCM[i,j] is NOTUSED, then PUM[i,j] should be set to true.
+        PUM[i][j] = true;
+      }
+      else if(LCM[i][j] == ANDD) {//If LCM[i,j] is ANDD, PUM[i,j] should be set to true only if (CMV[i] AND CMV[j]) is true.
+        if(CMV[i] == true && CMV[j] == true) {
+          PUM[i][j] = true;
+        }
+        else {
+          PUM[i][j] = false;
+        }
+      }
+      else if (LCM[i][j] == ORR) { // If LCM[i,j] is ORR, PUM[i,j] should be set to true if (CMV[i] OR CMV[j]) is true.
+        if(CMV[i] == true || CMV[j] == true) {
+          PUM[i][j] = true;
+        }
+        else {
+          PUM[i][j] = false;
+        }
+      }
+      // (Note that the LCM is symmetric, i.e. LCM[i,j]=LCM[j,i] for all i and j.)
+    }
+  }
+  //printPUM();
 }
 
 /**

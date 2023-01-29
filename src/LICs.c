@@ -450,6 +450,20 @@ boolean LIC10isMet() {
  * @return boolean representing whether LIC 11 is met or not
  */
 boolean LIC11isMet() {
+  if(NUMPOINTS < 3) { // not met if NUMPOINTS < 3
+    return false;
+  }
+
+  for (int i = 0; i < NUMPOINTS - (PARAMETERS.GPTS + 1); i++) {
+    int j = i + (PARAMETERS.GPTS + 1);
+    if(X[i] - X[j] < 0) {
+      #ifdef DEBUG
+      printf("return true for (%f, %f) (%f, %f)\n",X[i], Y[i], X[j], Y[j]);
+      #endif
+      return true;
+    }
+  }
+
   return false;
 }
 
