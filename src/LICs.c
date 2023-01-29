@@ -156,7 +156,7 @@ boolean LIC13isMet() {
  * Determines whether LIC 14 is met or not
  * @return boolean representing whether LIC 14 is met or not
  */
-#define DEBUG
+
 boolean LIC14isMet() {
   if(NUMPOINTS < 5) {
     return false;
@@ -184,7 +184,10 @@ boolean LIC14isMet() {
       c = distance(x1, y1, x3, y3);
       p = (a + b + c) / 2.0;
       area = sqrt (p * (p - a) * (p - b) * (p - c));
-
+      #ifdef DEBUG
+      printf("(%f,%f)(%f,%f)(%f,%f)\n",x1,y1,x2,y2,x3,y3);
+      printf("area = %f\n", area);
+      #endif
       if(area > PARAMETERS.AREA1) {
         #ifdef DEBUG
         printf("flag1 true for area = %f\n", area);

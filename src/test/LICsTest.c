@@ -225,43 +225,70 @@ void testLIC13isMet() {
 void testLIC14isMet() {
   /*
   testcase 1: area smaller than AREA1
-      X = {1, 2, 3}
-      Y = {1, 2, 3}
+      X = {1, 1, 3, 1, 3}
+      Y = {1, 1, 2, 1, -5}
       
   expected return: false
   */
   X[0] = 1;X[1] = 1;X[2] = 3;X[3] = 1;X[4] = 3;
-  Y[0] = 1;Y[1] = 1;Y[2] = 2;Y[3] = 1;Y[4] = 2;
-  PARAMETERS.AREA1 = 8;
-  PARAMETERS.AREA2 = 10;
+  Y[0] = 1;Y[1] = 1;Y[2] = 2;Y[3] = 1;Y[4] = -5;
+  PARAMETERS.AREA1 = 7.44;
+  PARAMETERS.AREA2 = 10.3;
   PARAMETERS.EPTS = 1;
   PARAMETERS.FPTS = 1;
-  NUMPOINTS = 3;
-  if(LIC2isMet()) {
-    LOGE("testLIC2isMet failed");
+  NUMPOINTS = 5;
+  if(LIC14isMet()) {
+    LOGE("testLIC14isMet failed");
   }
   /*
   testcase 2: area greater than AREA2
-      X = {1, 2, 3}
-      Y = {1, 2, 3}
+      X = {1, 1, 3, 1, 8}
+      Y = {1, 1, 2, 1, -5}
       
   expected return: false
   */
-
+  X[0] = 1;X[1] = 1;X[2] = 3;X[3] = 1;X[4] = 8;
+  Y[0] = 1;Y[1] = 1;Y[2] = 2;Y[3] = 1;Y[4] = -5;
+  PARAMETERS.AREA1 = 6.44;
+  PARAMETERS.AREA2 = 9.1;
+  PARAMETERS.EPTS = 1;
+  PARAMETERS.FPTS = 1;
+  NUMPOINTS = 5;
+  if(LIC14isMet()) {
+    LOGE("testLIC14isMet failed");
+  }
   /*
   testcase 3: area between AREA1 and AREA2
-      X = {1, 2, 3}
-      Y = {1, 2, 3}
+      X = {1, 1, 3, 1, 8}
+      Y = {1, 1, 2, 1, -5}
       
   expected return: true
   */
-
+  X[0] = 1;X[1] = 1;X[2] = 3;X[3] = 1;X[4] = 3;
+  Y[0] = 1;Y[1] = 1;Y[2] = 2;Y[3] = 1;Y[4] = -5;
+  PARAMETERS.AREA1 = 6.44;
+  PARAMETERS.AREA2 = 9.1;
+  PARAMETERS.EPTS = 1;
+  PARAMETERS.FPTS = 1;
+  NUMPOINTS = 5;
+  if(!LIC14isMet()) {
+    LOGE("testLIC14isMet failed");
+  }
   /*
   testcase 4: NUMPOINT < 5
     NUMPOINT = 2
   expected return: false
   */
-  
+  X[0] = 1;X[1] = 1;
+  Y[0] = 1;Y[1] = 1;
+  PARAMETERS.AREA1 = 6.44;
+  PARAMETERS.AREA2 = 9.1;
+  PARAMETERS.EPTS = 1;
+  PARAMETERS.FPTS = 1;
+  NUMPOINTS = 2;
+  if(LIC14isMet()) {
+    LOGE("testLIC14isMet failed");
+  }
 }
 
 /**
