@@ -1,4 +1,5 @@
 #include "decide.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -72,7 +73,25 @@ void calculatePUM() {
  * 
  */
 void calculateFUV() {
-
+        for (int i = 0; i < 15; i++) {
+            FUV[i] = false;
+            boolean rowIsTrue = true; //Fuv[i] should be true if the entire row is true.
+            for (int j = 0; j < 15; j++) {
+                if (!PUM[i][j]) {
+                  rowIsTrue = false;
+                  break;
+                }
+            }
+            if (rowIsTrue) {
+              FUV[i] = true;
+            }
+            else {
+              if (!PUV[i]) {
+                FUV[i] = true; //Fuv[i] should be true if Puv[i] is false.
+              }
+            }
+        }
+            
 }
 
 /**

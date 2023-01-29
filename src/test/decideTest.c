@@ -78,17 +78,97 @@ void calculatePUMTest() {
 
 /**
  * Tests the calculateFUV-function
- * First test is to make sure LAUNCH is set to true if all values of FUV are set to true.
- * Second test makes sure any one FUV index set to false results in LAUNCH being set to false.
- * Third test randomly sets a random number of indexes of FUV to false (could set 0 of them), and makes sure LAUNCH is set accordingly.
+ * 
+ * 
  */
 void calculateFUVTest() {
+  /*
+  testcase 1: All elements in PUM false. All elements in PUV true.
+  If all PUV elements are true, none of the FUV elements will be set to true.
+  If all PUM elements are false, none of the FUV elements will be set to true.
+  Expected result: All FUV elements will be false.
+  */
+  for(int i = 0; i < 15; i++){
+    for(int j = 0; j < 15; j++){
+      PUM[i][j] = false;
+    }
+    PUV[i] = true;
+  }
+  calculateFUV();
+  for(int i = 0; i < 15; i++){
+    if(FUV[i]){
+      LOGE("FAILURE: testcase 1. All FUV elements should be false.");
+      break;
+    }
+  }
+
+  /*
+  testcase 2: All elements in PUM true. All elements in PUV true.
+  If all PUV elements are true, none of the FUV elements will be set to true.
+  If all PUM elements are true, all of the FUV elements will be set to true.
+  Expected result: All FUV elements will be true.
+  */
+  for(int i = 0; i < 15; i++){
+    for(int j = 0; j < 15; j++){
+      PUM[i][j] = true;
+    }
+    PUV[i] = true;
+  }
+  calculateFUV();
+  for(int i = 0; i < 15; i++){
+    if(!FUV[i]){
+      LOGE("FAILURE: testcase 2. All FUV elements should be true.");
+      break;
+    }
+  }
+
+  /*
+  testcase 3: All elements in PUM true. All elements in PUV true.
+  If all PUV elements are true, none of the FUV elements will be set to true.
+  If all PUM elements are true, all of the FUV elements will be set to true.
+  Expected result: All FUV elements will be true.
+  */
+  for(int i = 0; i < 15; i++){
+    for(int j = 0; j < 15; j++){
+      PUM[i][j] = true;
+    }
+    PUV[i] = true;
+  }
+  calculateFUV();
+  for(int i = 0; i < 15; i++){
+    if(!FUV[i]){
+      LOGE("FAILURE: testcase 3. All FUV elements should be true.");
+      break;
+    }
+  }
+
+  /*
+  testcase 4: All elements in PUM false. All elements in PUV false.
+  If all PUV elements are false, all of the FUV elements will be set to true.
+  If all PUM elements are false, none of the FUV elements will be set to true.
+  Expected result: All FUV elements will be true.
+  */
+  for(int i = 0; i < 15; i++){
+    for(int j = 0; j < 15; j++){
+      PUM[i][j] = false;
+    }
+    PUV[i] = false;
+  }
+  calculateFUV();
+  for(int i = 0; i < 15; i++){
+    if(!FUV[i]){
+      LOGE("FAILURE: testcase 4. All FUV elements should be true.");
+      break;
+    }
+  }
 
 }
 
 /**
  * Tests the decideLaunch-function
- * 
+ * First test is to make sure LAUNCH is set to true if all values of FUV are set to true.
+ * Second test makes sure any one FUV index set to false results in LAUNCH being set to false.
+ * Third test randomly sets a random number of indexes of FUV to false (could set 0 of them), and makes sure LAUNCH is set accordingly.
  */
 void decideLaunchTest() {
   for(int i = 0; i < 15; i ++) {
