@@ -106,9 +106,70 @@ boolean LIC5isMet() {
 
 /**
  * Determines whether LIC 6 is met or not
+ * LIC 6 is met if there exists PARAMETERS.NPTS consecutive points
+ * so that for at least one of the points, the distance from that point
+ * to the line between the first and last point is greater than PARAMETERS.DIST
+ * Requires
+ * PARAMETERS.NPTS
+ * PARAMETERS.DIST
+ * NUMPOINTS
+ * where
+ * 3 <= PARAMETERS.NPTS <= NUMPOINTS
+ * 0 <= PARAMETERS.DIST
  * @return boolean representing whether LIC 6 is met or not
  */
 boolean LIC6isMet() {
+
+  if(NUMPOINTS < 3) {
+    return false;
+  }
+
+  int npts = PARAMETERS.NPTS;
+  if(npts > NUMPOINTS || npts < 3 || PARAMETERS.DIST < 0) {
+    // This is invalid input
+    return false;
+  }
+
+  // Example thought process for the loop
+  // With npts = 3, and NUMPOINTS = 3, we want to loop once
+  // Then this will loop from i = 0 to i < 1, which is once
+  for(int i = 0; i < NUMPOINTS - npts + 1; i ++) {
+    double firstx = X[i];
+    double firsty = Y[i];
+
+    // Motivation for subtraction of 1
+    // if npts is 3 and NUMPOINTS is 3, then when first point is 0, then last point should be 2
+    // 0 + 3 - 1 = 2
+    double lastx = X[i + npts - 1];
+    double lasty = Y[i + npts - 1];
+
+    // Check all of the consecutive points, if they fulfill the criteria
+    for(int j = i; j < i + npts; j ++) {
+
+      if(firstx == lastx && firsty == lasty) {
+        // First and last point lie at the same spot, measure distance to this point instead
+        double distance = sqrt(pow(X[j] - firstx, 2) + pow(Y[j] - firsty, 2));
+        if(distance > PARAMETERS.DIST) {
+          return true;
+        }
+        continue;
+      }
+      
+      // Formula defined on https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line under "Line defined by two points"
+      double x1 = firstx;
+      double y1 = firsty;
+      double x2 = lastx;
+      double y2 = lasty;
+      double x0 = X[j];
+      double y0 = Y[j];
+     
+      double distance = fabs((x2 - x1)*(y1 - y0) - (x1 - x0)*(y2 - y1))/sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+      
+      if(distance > PARAMETERS.DIST) {
+        return true;
+      }
+    }
+  }
   return false;
 }
 
