@@ -164,10 +164,30 @@ void testLIC5isMet() {
 }
 
 /**
- * TODO
+ * Tests the LIC6isMet-function.
  */
 void testLIC6isMet() {
-  
+  // The distance from point 1 is sqrt(2) units from the line between points 0 and 2.
+  NUMPOINTS = 3;
+  PARAMETERS.NPTS = 3;
+  X[0] = 1;
+  Y[0] = 3;
+  X[1] = 3;
+  Y[1] = 3;
+  X[2] = 3;
+  Y[2] = 1;
+
+  PARAMETERS.DIST = 2;
+  boolean isMet = LIC6isMet(); // Should be false
+  if(isMet) {
+    LOGE("LIC6isMet returned true when it should have returned false");
+  }
+
+  PARAMETERS.DIST = 1;
+  isMet = LIC6isMet(); // Should be true
+  if(!isMet) {
+    LOGE("LIC6isMet returned false when it should have returned true");
+  }
 }
 
 /**
