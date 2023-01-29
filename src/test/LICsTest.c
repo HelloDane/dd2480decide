@@ -185,7 +185,7 @@ void testLIC8isMet() {
 }
 
 /**
- * TODO
+ * Tests the LIC9isMet-function
  */
 void testLIC9isMet() {
   // In the situation below, the saught after angle is 90 degrees = PI/2 radians
