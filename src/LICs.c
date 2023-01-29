@@ -202,10 +202,8 @@ boolean LIC14isMet() {
     }
   }
  }
-  if(flag1) {
-    if(flag2) {
+  if(flag1 && flag2) {
       return true;
-    }
   }
   return false;
 }

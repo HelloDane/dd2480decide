@@ -223,6 +223,44 @@ void testLIC13isMet() {
  * TODO
  */
 void testLIC14isMet() {
+  /*
+  testcase 1: area smaller than AREA1
+      X = {1, 2, 3}
+      Y = {1, 2, 3}
+      
+  expected return: false
+  */
+  X[0] = 1;X[1] = 1;X[2] = 3;X[3] = 1;X[4] = 3;
+  Y[0] = 1;Y[1] = 1;Y[2] = 2;Y[3] = 1;Y[4] = 2;
+  PARAMETERS.AREA1 = 8;
+  PARAMETERS.AREA2 = 10;
+  PARAMETERS.EPTS = 1;
+  PARAMETERS.FPTS = 1;
+  NUMPOINTS = 3;
+  if(LIC2isMet()) {
+    LOGE("testLIC2isMet failed");
+  }
+  /*
+  testcase 2: area greater than AREA2
+      X = {1, 2, 3}
+      Y = {1, 2, 3}
+      
+  expected return: false
+  */
+
+  /*
+  testcase 3: area between AREA1 and AREA2
+      X = {1, 2, 3}
+      Y = {1, 2, 3}
+      
+  expected return: true
+  */
+
+  /*
+  testcase 4: NUMPOINT < 5
+    NUMPOINT = 2
+  expected return: false
+  */
   
 }
 
