@@ -102,6 +102,9 @@ void decideLaunch();
 
 void testAll();
 
+//helper functions
+double distance(double x1, double y1, double x2, double y2);
+
 #define LOGE(format, ...)  fprintf(stderr,"[ERROR] [%s:%d] " format "\n",__func__,__LINE__,##__VA_ARGS__)
 static inline
 void assert(boolean expression, char * value, char * expected) {
