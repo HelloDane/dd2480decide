@@ -98,9 +98,20 @@ boolean LIC6isMet() {
 
 /**
  * Determines whether LIC 7 is met or not
+ * There exists at least one set of two data points separated by exactly K PTS consecutive intervening points
+ * that are a distance greater than the length, LENGTH1, apart. The condition is not met when NUMPOINTS < 3.
  * @return boolean representing whether LIC 7 is met or not
  */
 boolean LIC7isMet() {
+  if (NUMPOINTS < 3 || PARAMETERS.KPTS < 1 || PARAMETERS.KPTS > NUMPOINTS-2) { 
+    return false; //Invalid parameters
+  }
+  int kPts = PARAMETERS.KPTS + 1; //+ 1 For indexing purposes.
+  for (int i = 0; (i < NUMPOINTS - kPts); i++) {
+      if (distance(X[i],Y[i],X[i+kPts],Y[i+kPts]) > PARAMETERS.LENGTH1) {
+        return true;
+      } 
+  }
   return false;
 }
 
