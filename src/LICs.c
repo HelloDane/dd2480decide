@@ -52,6 +52,10 @@ boolean LIC1isMet() {
 
 /**
  * Determines whether LIC 2 is met or not
+ * true if there exists at least one set of three consecutive data points which form an angle such that:
+ * angle < (PI􀀀EPSILON)
+ * or
+ * angle > (PI+EPSILON)
  * @return boolean representing whether LIC 2 is met or not
  */
 boolean LIC2isMet() {
@@ -169,6 +173,8 @@ boolean LIC4isMet() {
 
 /**
  * Determines whether LIC 5 is met or not
+ * true if there exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[j],Y[j]),
+ * such that X[j] - X[i] < 0.
  * @return boolean representing whether LIC 5 is met or not
  */
 boolean LIC5isMet() {
@@ -318,6 +324,9 @@ double radius(double x1, double y1, double x2, double y2, double x3, double y3) 
 }
 /**
  * Determines whether LIC 8 is met or not
+ * true if there exists at least one set of three data points separated by exactly A PTS and B PTS
+ * consecutive intervening points, respectively, that cannot be contained within or on a circle of
+ * radius RADIUS1.
  * @return boolean representing whether LIC 8 is met or not
  */
 boolean LIC8isMet() {
@@ -447,6 +456,8 @@ boolean LIC10isMet() {
 
 /**
  * Determines whether LIC 11 is met or not
+ * true if there exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
+ * exactly G PTS consecutive intervening points, such that X[j] - X[i] < 0.
  * @return boolean representing whether LIC 11 is met or not
  */
 boolean LIC11isMet() {
@@ -521,6 +532,12 @@ boolean LIC13isMet() {
 
 /**
  * Determines whether LIC 14 is met or not
+ * true if there exists at least one set of three data points, separated by exactly E PTS and F PTS consecutive
+ * intervening points, respectively, that are the vertices of a triangle with area greater
+ * than AREA1. In addition, there exist three data points (which can be the same or different
+ * from the three data points just mentioned) separated by exactly E PTS and F PTS consecutive
+ * intervening points, respectively, that are the vertices of a triangle with area less than AREA2. 
+ * Both parts must be true for the LIC to be true.
  * @return boolean representing whether LIC 14 is met or not
  */
 

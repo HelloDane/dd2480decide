@@ -70,7 +70,7 @@ void testLIC0isMet() {
 }
 
 /**
- * TODO
+ * Tests LIC1isMet using multiple different problem instances
  */
 void testLIC1isMet() {
     /*
@@ -129,7 +129,7 @@ void testLIC1isMet() {
 }
 
 /**
- * TODO
+ * Tests LIC2isMet using multiple different problem instances
  */
 void testLIC2isMet() {
   /*
@@ -195,7 +195,7 @@ void testLIC2isMet() {
 }
 
 /**
- * TODO
+ * Tests LIC3isMet using multiple different problem instances
  */
 void testLIC3isMet() {
 
@@ -324,7 +324,7 @@ void testLIC4isMet() {
 }
 
 /**
- * TODO
+ * Tests LIC5isMet using multiple different problem instances
  */
 void testLIC5isMet() {
   /*
@@ -490,7 +490,7 @@ void testLIC7isMet() {
 }
 
 /**
- * TODO
+ * Tests LIC8isMet using multiple different problem instances
  */
 void testLIC8isMet() {
   /*
@@ -664,7 +664,7 @@ void testLIC10isMet() {
 }
 
 /**
- * TODO
+ * Tests LIC11isMet using multiple different problem instances
  */
 void testLIC11isMet() {
   /*
@@ -820,7 +820,7 @@ void testLIC13isMet() {
 }
 
 /**
- * TODO
+ * Tests LIC14isMet using multiple different problem instances
  */
 void testLIC14isMet() {
   /*
