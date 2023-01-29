@@ -191,9 +191,58 @@ boolean LIC8isMet() {
 
 /**
  * Determines whether LIC 9 is met or not
+ * Requires
+ * NUMPOINTS
+ * PARAMETERS.CPTS
+ * PARAMETERS.DPTS
+ * PARAMETERS.EPSILON
  * @return boolean representing whether LIC 9 is met or not
  */
 boolean LIC9isMet() {
+
+  if(NUMPOINTS < 5) {
+    return false;
+  }
+
+  if(PARAMETERS.CPTS < 1 || PARAMETERS.DPTS < 1 || PARAMETERS.CPTS + PARAMETERS.DPTS > NUMPOINTS - 3) {
+    // Invalid input as per description
+    return false;
+  }
+
+  int points_set_length = 1 + PARAMETERS.CPTS + 1 + PARAMETERS.DPTS + 1;
+
+  // Loop over all possible sets
+  for(int i = 0; i < NUMPOINTS - points_set_length + 1; i ++) {
+    double x0 = X[i];
+    double y0 = Y[i];
+
+    int secondIndex = i + PARAMETERS.CPTS + 1;
+    double x1 = X[secondIndex];
+    double y1 = Y[secondIndex];
+
+    int thirdIndex = secondIndex + PARAMETERS.DPTS + 1;
+    double x2 = X[thirdIndex];
+    double y2 = Y[thirdIndex];
+
+    // If the first or last point, or both, coincides with the vertex (middle point), return false
+    if(x0 == x1 && y0 == y1) {
+      return false;
+    }
+    if(x2 == x1 && y2 == y1) {
+      return false;
+    }
+
+    double a = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2)); // Distance between point 0 and 1
+    double b = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2)); // Distance between point 1 and 2
+    double c = sqrt(pow(x0 - x2, 2) + pow(y0 - y2, 2)); // Distance between point 0 and 2
+
+    // law of cosine
+    double angle = acos((pow(a, 2) + pow(b, 2) - pow(c, 2))/(2*a*b));
+    
+    if(angle < PI - PARAMETERS.EPSILON || angle > PI + PARAMETERS.EPSILON) {
+      return true;
+    }
+  }
   return false;
 }
 

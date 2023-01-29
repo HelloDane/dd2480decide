@@ -250,10 +250,37 @@ void testLIC8isMet() {
 }
 
 /**
- * TODO
+ * Tests the LIC9isMet-function
  */
 void testLIC9isMet() {
-  
+  // In the situation below, the saught after angle is 90 degrees = PI/2 radians
+  PARAMETERS.CPTS = 2;
+  PARAMETERS.DPTS = 3;
+  NUMPOINTS = 8;
+  X[0] = 1;
+  Y[0] = 1;
+  X[3] = 2;
+  Y[3] = 1;
+  X[7] = 2;
+  Y[7] = 2;
+
+  PARAMETERS.EPSILON = PI/3; // Should return true since PI/2 < PI - PI/3
+  boolean isMet = LIC9isMet();
+  if(!isMet) {
+    LOGE("LIC9isMet returned false when it should have returned true");
+  }
+
+  PARAMETERS.EPSILON = -(PI/2 + PI/6); // Should return true since PI/2 > PI + (-(PI/2 + PI/6))
+  isMet = LIC9isMet();
+  if(!isMet) {
+    LOGE("LIC9isMet returned false when it should have returned true");
+  }
+
+  PARAMETERS.EPSILON = PI/2 + PI/6; // Should return false since PI/2 > PI - (PI/2 + PI/6) and PI/2 < PI + (PI/2 + PI/6)
+  isMet = LIC9isMet();
+  if(isMet) {
+    LOGE("LIC9isMet returned true when it should have returned false");
+  }
 }
 
 /**
