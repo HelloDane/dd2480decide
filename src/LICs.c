@@ -146,9 +146,45 @@ boolean LIC12isMet() {
 
 /**
  * Determines whether LIC 13 is met or not
+ * There exists at least one set of three data points, separated by exactly A PTS and B PTS
+ * consecutive intervening points, respectively, that cannot be contained within or on a circle of
+ * radius RADIUS1. In addition, there exists at least one set of three data points (which can be
+ * the same or different from the three data points just mentioned) separated by exactly A PTS
+ * and B PTS consecutive intervening points, respectively, that can be contained in or on a
+ * circle of radius RADIUS2. Both parts must be true for the LIC to be true. The condition is
+ * not met when NUMPOINTS < 5.
  * @return boolean representing whether LIC 13 is met or not
  */
 boolean LIC13isMet() {
+  if (NUMPOINTS < 5 || PARAMETERS.APTS < 0 || PARAMETERS.BPTS < 0 ||
+     (NUMPOINTS - PARAMETERS.APTS - PARAMETERS.BPTS - 3) < 0 || PARAMETERS.RADIUS2 < 0) {
+    return false;
+  }
+  boolean cond1 = false;
+  boolean cond2 = false;
+  for (int i = 0; i < (NUMPOINTS - PARAMETERS.APTS - PARAMETERS.BPTS - 2); i++) {
+    double x1 = X[i];
+    double y1 = Y[i];
+    double x2 = X[i + PARAMETERS.APTS + 1];
+    double y2 = Y[i + PARAMETERS.APTS + 1];
+    double x3 = X[i + PARAMETERS.APTS + 1 + PARAMETERS.BPTS + 1];
+    double y3 = Y[i + PARAMETERS.APTS + 1 + PARAMETERS.BPTS + 1];
+    // cond1: At least one of the distances between the pairs of data points must be greater than the diameter.
+    if (distance(x1,y1,x2,y2) > PARAMETERS.RADIUS1*2 ||
+        distance(x2,y2,x3,y3) > PARAMETERS.RADIUS1*2 ||
+        distance(x3,y3,x1,y1) > PARAMETERS.RADIUS1*2) {
+          cond1 = true;
+    }
+    // cond2: All of the distances between the pairs of data points must be less than or equal to the diameter.
+    if (distance(x1,y1,x2,y2) <= PARAMETERS.RADIUS2*2 &&
+        distance(x2,y2,x3,y3) <= PARAMETERS.RADIUS2*2 &&
+        distance(x3,y3,x1,y1) <= PARAMETERS.RADIUS2*2) {
+          cond2 = true;
+    }
+  }
+  if (cond1 && cond2) {
+    return true;
+  }
   return false;
 }
 
