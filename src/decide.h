@@ -65,6 +65,9 @@ extern boolean CMV[15];
 //FinalUnlockingVECTOR 
 extern boolean FUV[15];
 
+//PreliminaryUnlockingVECTOR 
+extern boolean PUV[15];
+
 //Decision:LaunchorNoLaunch
 extern boolean LAUNCH;
 

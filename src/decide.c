@@ -7,6 +7,7 @@ int NUMPOINTS = 100;
 double X[100];
 double Y[100];
 boolean FUV[15];
+boolean PUV[15];
 boolean CMV[15];
 boolean PUM[15][15];
 CONNECTORS LCM[15][15];
