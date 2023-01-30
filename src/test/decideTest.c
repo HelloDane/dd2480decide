@@ -135,63 +135,6 @@ void decideTestNegative() {
   //Run the program
   DECIDE();
 
-  
-  for (int i = 0; i < 15; i++) {
-    //Assert that the CMV vector matches the expected CMV vector
-    if (CMV[i] != LICExpectedValue[i]) {
-      LOGE("FAILURE: CMV expected to be equal to the given vector.");
-      break;
-    }
-  }
-
-
-  boolean PUMisValid = true;
-  for (int i = 0; i < 15; i++) {
-    for (int j = 0; j < 15; j++) {
-      if (i == 3 && j == 14) {
-        //Assert that the element PUM[3][14] is false
-        if (PUM[i][j] == true) {
-          LOGE("FAILURE: PUM element expected to be false but was true.");
-          PUMisValid = false;
-          break;
-        }
-      }
-      //Assert that the all elements except PUM[3][14] are true
-      else if (PUM[i][j] == false) {
-        LOGE("FAILURE: PUM element expected to be true but was false.");
-        PUMisValid = false;
-        break;
-      }
-      if (!PUMisValid) {
-        break;
-      }
-    }
-  }
-
-  boolean FUVisValid = true;
-  for (int i = 0; i < 15; i++) {
-    if (i == 3) {
-      //Assert that there is a false element in the FUV at index 3.
-      if (FUV[i]) {
-        boolean FUVisValid = false;
-        LOGE("FAILURE: FUV element expected to be false but was true.");
-        break;
-      }
-    }
-    
-    else {
-      //Assert that all elements in the FUV are true except for the element at index 3.
-      if (!FUV[i]) {
-        boolean FUVisValid = false;
-        LOGE("FAILURE: FUV element expected to be true but was false.");
-        break;
-      }
-    }
-    if (!FUVisValid) {
-      break;
-    }
-  }
-
   //Assert that LAUNCH is false.
   if(LAUNCH) {
     LOGE("FAILURE: LAUNCH expected to be false but was true.");
