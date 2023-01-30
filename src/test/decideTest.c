@@ -80,6 +80,94 @@ void decideTestNegative() {
  * 
  */
 void decideTestInvalid() {
+  /*Testcase 1: NUMPOINT > 100, should not launch with invalid input.*/
+  NUMPOINTS = 103; // NUMPOINT > 100
+  PARAMETERS.QPTS = 2;
+  PARAMETERS.QUADS = 2;
+  PARAMETERS.LENGTH1 = 3;
+  PARAMETERS.RADIUS1 = 2;
+  X[0] = -1;
+  Y[0] = 1;
+  X[1] = 1;
+  Y[1] = 1;
+  boolean LICisMet[15];
+  for(int i = 0; i < 15; i ++) {
+    LICisMet[i] = false;
+  }
+
+  LICisMet[0] = true;
+  LICisMet[1] = true;
+  LICisMet[4] = true;
+  LICisMet[5] = true;
+
+  for(int i = 0; i < 15; i ++) {
+    for(int j = 0; j < 15; j ++) {
+      if(LICisMet[i] && LICisMet[j]) {
+        LCM[i][j] = ANDD;
+        continue;
+      }
+
+      if((LICisMet[i] && !LICisMet[j]) || (!LICisMet[i] && LICisMet[j])) {
+        LCM[i][j] = ORR;
+        continue;
+      }
+
+      LCM[i][j] = NOTUSED;
+    }
+  }
+
+  DECIDE();
+  if(LAUNCH == 1) {
+    LOGE("DECIDE decided to launch when it should not have");
+  }
+  else {
+    printf("DECIDE passed the invalid test!\n");
+  }
+
+  /*Testcase 2: invalid input for LIC0, LENGTH1 < 0. should not launch because LIC0 is not met.*/
+  NUMPOINTS = 2;
+  PARAMETERS.QPTS = 2;
+  PARAMETERS.QUADS = 2;
+  PARAMETERS.LENGTH1 = -5; // invalid input for LIC0, LENGTH1 < 0
+  PARAMETERS.RADIUS1 = 2;
+  X[0] = -1;
+  Y[0] = 1;
+  X[1] = 1;
+  Y[1] = 1;
+  boolean LICisMet[15];
+  for(int i = 0; i < 15; i ++) {
+    LICisMet[i] = false;
+  }
+
+  LICisMet[0] = true;
+  LICisMet[1] = true;
+  LICisMet[4] = true;
+  LICisMet[5] = true;
+
+  for(int i = 0; i < 15; i ++) {
+    for(int j = 0; j < 15; j ++) {
+      if(LICisMet[i] && LICisMet[j]) {
+        LCM[i][j] = ANDD;
+        continue;
+      }
+
+      if((LICisMet[i] && !LICisMet[j]) || (!LICisMet[i] && LICisMet[j])) {
+        LCM[i][j] = ORR;
+        continue;
+      }
+
+      LCM[i][j] = NOTUSED;
+    }
+  }
+
+  DECIDE();
+  if(LAUNCH == 1) {
+    LOGE("DECIDE decided to launch when it should not have");
+  }
+  else {
+    printf("DECIDE passed the invalid test!\n");
+  }
+
 
 }
 
