@@ -211,7 +211,6 @@ boolean LIC5isMet() {
         double denominator = sqrt(pow(y_last - y_first, 2) + pow(x_last - x_first, 2));
         double distance_to_line = numerator / denominator;
         if(distance_to_line > PARAMETERS.DIST) {
-          printf("return true for Distance: %lf\n", distance_to_line);
           return true;
         }    
       }
