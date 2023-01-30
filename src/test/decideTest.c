@@ -8,7 +8,63 @@
  * 
  */
 void decideTestPositive() {
-  
+  // If NUMPOINTS is 2, then LICs 2, 3, 6, 7, 8, 9, 10, 11, 12, 13, and 14 should automatically not be met.
+  // LIC 0 should be met if the two points are placed closer than LENGTH1 units apart.
+  // LIC 1 should be met if the two points are closer than RADIUS1*2 units apart.
+  // LIC 4 should be met if the two points are placed in different quadrants, and Q_PTS = 2 and QUADS = 2.
+  // LIC 5 should be met if the second point has a higher x-value than the first point
+  // To fulfill LICs 0, 1, 4 and 5 while failing the rest we can 
+  // place p0 at (-1, 1) and p1 at (1, 1)
+  // This results in the distance between them being 2 units, so let LENGTH1 be 3 units, and LIC0 is met
+  // Set RADIUS1 to 2, because the points can be contained within a circle of diameter 4, so LIC1 is met.
+  // LIC4 is met since the points are in different quadrants and QPTS = 2 and QUADS = 2.
+  // LIC5 is met since the second point has a higher x-value than the first.
+  NUMPOINTS = 2;
+  PARAMETERS.QPTS = 2;
+  PARAMETERS.QUADS = 2;
+  PARAMETERS.LENGTH1 = 3;
+  PARAMETERS.RADIUS1 = 2;
+  X[0] = -1;
+  Y[0] = 1;
+  X[1] = 1;
+  Y[1] = 1;
+
+  // Set LCM matrix so that the cells representing the relationship between two LICs that are not met is NOTUSED
+  // while the cells representing the relationship between two LICs that are both met is AND
+  // and the cells representing the relationship between one LIC that is met and one that is not to OR
+  boolean LICisMet[15];
+  for(int i = 0; i < 15; i ++) {
+    LICisMet[i] = false;
+  }
+  LICisMet[0] = true;
+  LICisMet[1] = true;
+  LICisMet[4] = true;
+  LICisMet[5] = true;
+
+  for(int i = 0; i < 15; i ++) {
+    for(int j = 0; j < 15; j ++) {
+      if(LICisMet[i] && LICisMet[j]) {
+        LCM[i][j] = ANDD;
+        continue;
+      }
+
+      if((LICisMet[i] && !LICisMet[j]) || (!LICisMet[i] && LICisMet[j])) {
+        LCM[i][j] = ORR;
+        continue;
+      }
+
+      LCM[i][j] = NOTUSED;
+    }
+  }
+
+  DECIDE();
+
+  if(LAUNCH == 0) {
+    LOGE("DECIDE decided not to launch when it should have");
+  }
+  else {
+    printf("DECIDE passed the positive test!\n");
+  }
 }
 
 /**
