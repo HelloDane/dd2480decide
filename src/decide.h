@@ -105,6 +105,8 @@ void decideLaunch();
 
 void testAll();
 
+void restoreGlobalVars();
+
 //helper functions
 double distance(double x1, double y1, double x2, double y2);
 void printPUM();
