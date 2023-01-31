@@ -36,3 +36,6 @@ Finally, all members contributed with different parts of the documentation.
 
 We are very proud of the work we have done, especially considering we were 2 team members short, and we have learned a lot about the process of working simultaneously on a project together with other developers. While the initial project setup was a bit tough, the process of writing issues and creating branches for each issue, was quickly discovered to be extremely efficient, and a fantastic and well structured way of working.
 
+In addition to the aforementioned conditions, we believe that we have fullfilled the "valuable and remarkable" criteria by implementing a build automation tool (make) in our project, as well as applying thorough unit testing for all LIC conditions, performing tests for each LIC that check positive, negative, and invalid cases.
+
+
