@@ -145,16 +145,36 @@ void printDecision() {
 }
 
 /**
+ * Check NUMPOINTS value
+ * 0 <= NUMPOINTS < 100, otherwise could cause array index to overflow
+ */
+boolean checkInvalidNUMPOINTS() {
+  if(NUMPOINTS > 100 || NUMPOINTS < 0) {
+    return true;
+  }
+  return false;
+}
+
+/**
  * Determins whether to launch or not, depending on the program input
  * 
  */
 void DECIDE() {
-  calculateCMV();
-  calculatePUM();
-  calculateFUV();
-  decideLaunch();
-  printDecision();
+  if(checkInvalidNUMPOINTS()) {
+    LAUNCH = false;
+    printf("NUMPOINTS invalid, launch decision: ");
+    printDecision();
+  }
+  else {
+    calculateCMV();
+    calculatePUM();
+    calculateFUV();
+    decideLaunch();
+    printDecision();
+  }
 }
+
+
 
 
 
