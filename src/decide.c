@@ -1,7 +1,7 @@
 #include "decide.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <string.h>
 
 PARAMETERS_T PARAMETERS;
 int NUMPOINTS = 100;
@@ -13,28 +13,6 @@ boolean CMV[15];
 boolean PUM[15][15];
 CONNECTORS LCM[15][15];
 boolean LAUNCH;
-
-/**
- * Restores all global variables used in the DECIDE problem
- * 
- */
-void restoreGlobalVars() {
-  LAUNCH = false;
-  memset(&PARAMETERS, 0, sizeof(PARAMETERS));
-  for (int i = 0; i < 15; i++) {
-    FUV[i] = false;
-    PUV[i] = false;
-    CMV[i] = false;
-    for (int j = 0; j < 15; j++) {
-      PUM[i][j] = false;
-      LCM[i][j] = NOTUSED;
-    }
-  }
-  for (int i = 0; i < 100; i++) {
-    X[i] = 0.0;
-    Y[i] = 0.0;
-  }
-}
 
 /**
  * Calculates the entire global CMV array
@@ -145,36 +123,16 @@ void printDecision() {
 }
 
 /**
- * Check NUMPOINTS value
- * 0 <= NUMPOINTS < 100, otherwise could cause array index to overflow
- */
-boolean checkInvalidNUMPOINTS() {
-  if(NUMPOINTS > 100 || NUMPOINTS < 0) {
-    return true;
-  }
-  return false;
-}
-
-/**
  * Determins whether to launch or not, depending on the program input
  * 
  */
 void DECIDE() {
-  if(checkInvalidNUMPOINTS()) {
-    LAUNCH = false;
-    printf("NUMPOINTS invalid, launch decision: ");
-    printDecision();
-  }
-  else {
-    calculateCMV();
-    calculatePUM();
-    calculateFUV();
-    decideLaunch();
-    printDecision();
-  }
+  calculateCMV();
+  calculatePUM();
+  calculateFUV();
+  decideLaunch();
+  printDecision();
 }
-
-
 
 
 

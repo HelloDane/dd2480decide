@@ -8,11 +8,6 @@
  * @return boolean representing whether LIC 0 is met or not
  */
 boolean LIC0isMet() {
-  if(PARAMETERS.LENGTH1 < 0) {
-    // Invalid input
-    return false;
-  }
-
   for(int i = 0; i < NUMPOINTS - 1; i ++) {
     double x_one = X[i];
     double y_one = Y[i];
@@ -98,11 +93,6 @@ boolean LIC2isMet() {
  * @return boolean representing whether LIC 3 is met or not
  */
 boolean LIC3isMet() {
-  if(PARAMETERS.AREA1 < 0) {
-    // Invalid input
-    return false;
-  }
-
   for(int i = 0; i < NUMPOINTS - 2; i ++) {
     double x_1 = X[i];
     double y_1 = Y[i];
@@ -221,6 +211,7 @@ boolean LIC5isMet() {
         double denominator = sqrt(pow(y_last - y_first, 2) + pow(x_last - x_first, 2));
         double distance_to_line = numerator / denominator;
         if(distance_to_line > PARAMETERS.DIST) {
+          printf("return true for Distance: %lf\n", distance_to_line);
           return true;
         }    
       }
@@ -319,6 +310,18 @@ boolean LIC7isMet() {
 }
 
 
+double radius(double x1, double y1, double x2, double y2, double x3, double y3) {
+  double a=((y2-y1)*(y3*y3-y1*y1+x3*x3-x1*x1)-(y3-y1)*(y2*y2-y1*y1+x2*x2-x1*x1))/(2.0*((x3-x1)*(y2-y1)-(x2-x1)*(y3-y1)));
+  double b=((x2-x1)*(x3*x3-x1*x1+y3*y3-y1*y1)-(x3-x1)*(x2*x2-x1*x1+y2*y2-y1*y1))/(2.0*((y3-y1)*(x2-x1)-(y2-y1)*(x3-x1)));
+  double radius=sqrt((x1-a)*(x1-a)+(y1-b)*(y1-b));
+
+  #ifdef DEBUG
+  printf("points: (%f, %f) (%f, %f) (%f, %f)\n",x1, y1, x2, y2, x3, y3);
+  // printf("center: (%f, %f)\n", cx, cy);
+  printf("radius: %f\n", radius);
+  #endif
+  return radius;
+}
 /**
  * Determines whether LIC 8 is met or not
  * true if there exists at least one set of three data points separated by exactly A PTS and B PTS

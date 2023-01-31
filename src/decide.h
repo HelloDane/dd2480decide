@@ -105,13 +105,9 @@ void decideLaunch();
 
 void testAll();
 
-void restoreGlobalVars();
-
 //helper functions
 double distance(double x1, double y1, double x2, double y2);
-double radius(double x1, double y1, double x2, double y2, double x3, double y3);
-boolean checkInvalidNUMPOINTS();
-
+void printPUM();
 
 #define LOGE(format, ...)  fprintf(stderr,"[ERROR] [%s:%d] " format "\n",__func__,__LINE__,##__VA_ARGS__)
 static inline

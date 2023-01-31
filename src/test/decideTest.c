@@ -210,10 +210,13 @@ void calculatePUMTest() {
     &&PUM[14][0]==true&&PUM[14][1]==true&&PUM[14][2]==true&&PUM[14][3]==true&&PUM[14][4]==true&&PUM[14][14]==true)
   {
     //correct
+      //printf("PUMTestcase1 result correct\n");
   }
   else {
     LOGE("PUMTestcase1 failed");
   }
+
+  //printPUM();
 
 }
 
