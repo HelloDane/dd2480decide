@@ -21,7 +21,7 @@ boolean LIC0isMet() {
     double distance_x = fabs(x_two - x_one);
     double distance_y = fabs(y_two - y_one);
     double distance = sqrt(distance_x * distance_x + distance_y * distance_y);
-    if(distance < PARAMETERS.LENGTH1) {
+    if(distance > PARAMETERS.LENGTH1) {
       return true;
     }
   }
