@@ -31,8 +31,25 @@ void testLIC0isMet() {
   }
 
 
+  // Changing order of the points
+  X[0] = 1.0;
+  Y[0] = 1.0;
+  X[1] = 10.0;
+  Y[1] = 10.0;
+  X[2] = 2.0;
+  Y[2] = 2.0;
+
+  PARAMETERS.LENGTH1 = 2.0;
+  isMet = LIC0isMet(); // Should return false, since consecutive points are now far from each other
+
+  if(isMet) {
+    LOGE("LIC0isMet returned true when it should have been false");
+  }
+
+  // Changing order of the points, so that points 1 and 2 are now sqrt(2) units apart
   // Swap points 1 and 2 so that distances between consecutive points remain the same but point order is different
   // Makes sure order does not matter
+
   X[0] = 10.0;
   Y[0] = 2.0;
   X[1] = 5.0;
@@ -141,7 +158,7 @@ void testLIC2isMet() {
   PARAMETERS.EPSILON = 0.1;
   NUMPOINTS = 3;
   if(!LIC2isMet()) {
-    LOGE("testLIC2isMet failed");
+    LOGE("FAILURE: testLIC2isMet. Expected: true.");
   }
 
   /*
@@ -157,7 +174,7 @@ void testLIC2isMet() {
   PARAMETERS.EPSILON = 0.1;
   NUMPOINTS = 3;
   if(!LIC2isMet()) {
-    LOGE("testLIC2isMet failed");
+    LOGE("FAILURE: testLIC2isMet. Expected: true.");
   }
   /*
   testcase 3: angle between (PI - EPSILON) and (PI + EPSILON)
@@ -171,7 +188,7 @@ void testLIC2isMet() {
   PARAMETERS.EPSILON = 0.3;
   NUMPOINTS = 3;
   if(LIC2isMet()) {
-    LOGE("testLIC2isMet failed");
+    LOGE("FAILURE: testLIC2isMet. Expected: false.");
   }
 
   /*
@@ -185,7 +202,7 @@ void testLIC2isMet() {
   PARAMETERS.EPSILON = 0.1;
   NUMPOINTS = 3;
   if(LIC2isMet()) {
-    LOGE("testLIC2isMet failed");
+    LOGE("FAILURE: testLIC2isMet. Expected: false.");
   }
 
 }
@@ -461,7 +478,7 @@ void testLIC8isMet() {
   PARAMETERS.BPTS = 1;
   NUMPOINTS = 5;
   if(LIC8isMet()) {
-    LOGE("testLIC8isMet failed");
+    LOGE("FAILURE: testLIC8isMet. Expected: false.");
   }
   /*
   testcase 2: can not be contained
@@ -476,7 +493,7 @@ void testLIC8isMet() {
   PARAMETERS.BPTS = 2;
   NUMPOINTS = 6;
   if(!LIC8isMet()) {
-    LOGE("testLIC8isMet failed");
+    LOGE("FAILURE: testLIC8isMet. Expected: true.");
   }
   /*
   testcase 3: three points on a line
@@ -491,7 +508,7 @@ void testLIC8isMet() {
   PARAMETERS.BPTS = 2;
   NUMPOINTS = 6;
   if(LIC8isMet()) {
-    LOGE("testLIC8isMet failed");
+    LOGE("FAILURE: testLIC8isMet. Expected: false.");
   }
 
 }
@@ -633,7 +650,7 @@ void testLIC11isMet() {
   PARAMETERS.GPTS = 1;
   NUMPOINTS = 3;
   if(!LIC11isMet()) {
-    LOGE("testLIC11isMet failed");
+    LOGE("FAILURE: testLIC11isMet. Expected: true.");
   }
   /*
   testcase 2:
@@ -646,7 +663,7 @@ void testLIC11isMet() {
   PARAMETERS.GPTS = 1;
   NUMPOINTS = 5;
   if(LIC11isMet()) {
-    LOGE("testLIC11isMet failed");
+    LOGE("FAILURE: testLIC11isMet. Expected: false.");
   }
   /*
   testcase 3: NUMPOINTS < 3
@@ -659,7 +676,7 @@ void testLIC11isMet() {
   PARAMETERS.GPTS = 1;
   NUMPOINTS = 1;
   if(LIC11isMet()) {
-    LOGE("testLIC11isMet failed");
+    LOGE("FAILURE: testLIC11isMet. Expected: false.");
   }
 
 }
@@ -851,7 +868,7 @@ void testLIC14isMet() {
   PARAMETERS.FPTS = 1;
   NUMPOINTS = 5;
   if(LIC14isMet()) {
-    LOGE("testLIC14isMet failed");
+    LOGE("FAILURE: testLIC14isMet. Expected: false.");
   }
   /*
   testcase 2: area greater than AREA2
@@ -868,7 +885,7 @@ void testLIC14isMet() {
   PARAMETERS.FPTS = 1;
   NUMPOINTS = 5;
   if(LIC14isMet()) {
-    LOGE("testLIC14isMet failed");
+    LOGE("FAILURE: testLIC14isMet. Expected: false.");
   }
   /*
   testcase 3: area between AREA1 and AREA2
@@ -885,7 +902,7 @@ void testLIC14isMet() {
   PARAMETERS.FPTS = 1;
   NUMPOINTS = 5;
   if(!LIC14isMet()) {
-    LOGE("testLIC14isMet failed");
+    LOGE("FAILURE: testLIC14isMet. Expected: true.");
   }
   /*
   testcase 4: NUMPOINT < 5
@@ -900,7 +917,7 @@ void testLIC14isMet() {
   PARAMETERS.FPTS = 1;
   NUMPOINTS = 2;
   if(LIC14isMet()) {
-    LOGE("testLIC14isMet failed");
+    LOGE("FAILURE: testLIC14isMet. Expected: false.");
   }
 }
 
