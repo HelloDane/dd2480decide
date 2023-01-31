@@ -61,10 +61,10 @@ void decideTestPositive() {
   DECIDE();
 
   if(LAUNCH == 0) {
-    for(int i = 0; i < 15; i ++) {
-      printf("%d ", CMV[i]);
-    }
     LOGE("DECIDE decided not to launch when it should have");
+  }
+  else {
+    printf("DECIDE passed the positive test!\n");
   }
 }
 
