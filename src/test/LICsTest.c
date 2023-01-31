@@ -236,6 +236,14 @@ void testLIC3isMet() {
     LOGE("LIC3isMet returned false when it should have returned true");
   }
 
+  // Test invalid input
+  PARAMETERS.AREA1 = -1; // AREA1 may not be negative
+  isMet = LIC3isMet();
+  if(isMet) {
+    LOGE("LIC3isMet returned true when it should have returned false");
+  }
+
+  // Negative case
   PARAMETERS.AREA1 = 3.2;
   isMet = LIC3isMet(); // Should be false since 2 < 3.2
   if(isMet) {
@@ -378,6 +386,30 @@ void testLIC6isMet() {
   if(!isMet) {
     LOGE("LIC6isMet returned false when it should have returned true");
   }
+
+  // Test invalid input
+  PARAMETERS.NPTS = 4; // NPTS may not be greater than NUMPOINTS
+  isMet = LIC6isMet(); // Should be false
+  if(isMet) {
+    LOGE("LIC6isMet returned true when it should have returned false");
+  }
+  PARAMETERS.NPTS = 3; // reset after invalid test
+
+  PARAMETERS.NPTS = 2; // NPTS may not be less than 3
+  isMet = LIC6isMet(); // Should be false
+  if(isMet) {
+    LOGE("LIC6isMet returned true when it should have returned false");
+  }
+  PARAMETERS.NPTS = 3; // reset after invalid test
+
+  PARAMETERS.DIST = -1; // DIST may not be negative
+  isMet = LIC6isMet(); // Should be false
+  if(isMet) {
+    LOGE("LIC6isMet returned true when it should have returned false");
+  }
+  PARAMETERS.DIST = 1; // reset after invalid test
+
+
 }
 
 /**
@@ -512,8 +544,31 @@ void testLIC9isMet() {
   X[7] = 2;
   Y[7] = 2;
 
-  PARAMETERS.EPSILON = PI/3; // Should return true since PI/2 < PI - PI/3
+  // Test invalid input for the positive case, make sure false is returned
+  PARAMETERS.CPTS = 0; // CPTS has to be greater than 0
   boolean isMet = LIC9isMet();
+  if(isMet) {
+    LOGE("LIC9isMet returned true when it should have returned false");
+  }
+  PARAMETERS.CPTS = 2; // Reset
+
+  PARAMETERS.DPTS = 0; // DPTS has to be greater than 0
+  isMet = LIC9isMet();
+  if(isMet) {
+    LOGE("LIC9isMet returned true when it should have returned false");
+  }
+  PARAMETERS.DPTS = 3; // Reset
+
+  PARAMETERS.DPTS = 4; // CPTS + DPTS has to be <= NUMPOINTS - 3. 2 + 4 = 6 > 8 - 3 = 5, so this is invalid
+  isMet = LIC9isMet();
+  if(isMet) {
+    LOGE("LIC9isMet returned true when it should have returned false");
+  }
+  PARAMETERS.DPTS = 3; // Reset
+
+  // Positive case
+  PARAMETERS.EPSILON = PI/3; // Should return true since PI/2 < PI - PI/3
+  isMet = LIC9isMet();
   if(!isMet) {
     LOGE("LIC9isMet returned false when it should have returned true");
   }
@@ -705,12 +760,21 @@ void testLIC12isMet() {
 
   PARAMETERS.LENGTH1 = 3;
   PARAMETERS.LENGTH2 = 3;
+
   // LIC12 should now be met since 2 and 3 are 4 units apart which is > 3
   // and 5 and 6 are 2 units apart which is < 3, no other points are less than 3 apart
   boolean isMet = LIC12isMet();
   if(!isMet) {
     LOGE("LIC12isMet returned false when it should have returned true");
   }
+
+  // Test invalid inputs to make sure false is returned in those cases.
+  PARAMETERS.LENGTH2 = -1; // Negative LENGTH2
+  isMet = LIC12isMet();
+  if(isMet) {
+    LOGE("LIC12isMet returned true when it should have returned false");
+  }
+  PARAMETERS.LENGTH2 = 3; // reset after invalid test
 
   PARAMETERS.LENGTH1 = 3;
   PARAMETERS.LENGTH2 = 1.8;
