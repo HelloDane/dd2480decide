@@ -38,4 +38,3 @@ We are very proud of the work we have done, especially considering we were 2 tea
 
 In addition to the aforementioned conditions, we believe that we have fullfilled the "valuable and remarkable" criteria by implementing a build automation tool (make) in our project, as well as applying thorough unit testing for all LIC conditions, performing tests for each LIC that check positive, negative, and invalid cases.
 
-
