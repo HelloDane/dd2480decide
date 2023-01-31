@@ -357,6 +357,48 @@ void decideTest() {
   decideTestInvalid();
 }
 
+void testHelpers() {
+  testDistance();
+  testRadius();
+}
+
+void testDistance() {
+  double dist;
+  double expected_dist;
+  /*Testcase 1*/
+  dist = distance(0, 0, 3, -4);
+  expected_dist = 5.0;
+  if(DOUBLECOMPARE(dist, expected_dist) != EQ) {
+    LOGE("FAILURE: distance() testcase 1 failed, result = %lf, expect %lf", dist, expected_dist);
+  }
+
+  /*Testcase 2*/
+  dist = distance(-1.3, -4.0, 14.0, 22);
+  expected_dist = 30.1676979;
+  if(DOUBLECOMPARE(dist, expected_dist) != EQ) {
+    LOGE("FAILURE: distance testcase 2 failed, result = %lf, expect %lf", dist, expected_dist);
+  }
+}
+
+void testRadius() {
+  double rad;
+  double expected_rad;
+  /*Testcase 1*/
+  rad = radius(0, 0, 5, 0, 2.5, 4.3301270);
+  expected_rad = 2.886751345229590978;// calculation result with an acceptable rounding error
+  if(DOUBLECOMPARE(rad, expected_rad) != EQ) {
+    LOGE("FAILURE: radius testcase 1 failed, result = %lf, expect %lf", rad, expected_rad);
+  }
+
+  /*Testcase 2: circle centered at axis origin.*/
+  rad = radius(0, 3, 2.59807621, -1.5, -2.59807621, -1.5);// sin(60°)*3 = 2.59807621
+  expected_rad = 3;// calculation result with an acceptable rounding error
+  if(DOUBLECOMPARE(rad, expected_rad) != EQ) {
+    LOGE("FAILURE: radius testcase 1 failed, result = %lf, expect %lf", rad, expected_rad);
+  }
+
+}
+
 /**
  * Runs all tests
  * 
@@ -368,6 +410,7 @@ void testAll() {
   calculateFUVTest();
   decideLaunchTest();
   testLICs();
+  testHelpers();
 }
 
 
