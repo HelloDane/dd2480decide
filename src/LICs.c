@@ -461,6 +461,9 @@ boolean LIC11isMet() {
   if(NUMPOINTS < 3) { // not met if NUMPOINTS < 3
     return false;
   }
+  if(PARAMETERS.GPTS <= 0) {
+    return false;
+  }
 
   for (int i = 0; i < NUMPOINTS - (PARAMETERS.GPTS + 1); i++) {
     int j = i + (PARAMETERS.GPTS + 1);
