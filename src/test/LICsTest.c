@@ -5,25 +5,26 @@
  * Tests LIC0isMet using multiple different problem instances
  */
 void testLIC0isMet() {
-  // In the instance below, point 0 and 1 are sqrt(2) units apart
+  // In the instance below, points 0 and 1 are 4 units apart,
+  // points 1 and 2 are 5 units apart and
   NUMPOINTS = 3;
   X[0] = 1.0;
   Y[0] = 1.0;
-  X[1] = 2.0;
-  Y[1] = 2.0;
+  X[1] = 5.0;
+  Y[1] = 1.0;
   X[2] = 10.0;
-  Y[2] = 10.0;
+  Y[2] = 2.0;
 
-  PARAMETERS.LENGTH1 = 2.0;
-  boolean isMet = LIC0isMet(); // Should return true, since sqrt(2) is less than 2.0
+  PARAMETERS.LENGTH1 = 4.0;
+  boolean isMet = LIC0isMet(); // Should return true, 5 is greater than 4
 
   if(!isMet) {
     LOGE("LIC0isMet returned false when it should have been true");
   }
 
 
-  PARAMETERS.LENGTH1 = 1.0;
-  isMet = LIC0isMet(); // Should return false, since sqrt(2) is more than 1.0
+  PARAMETERS.LENGTH1 = 6.0;
+  isMet = LIC0isMet(); // Should return false, since 5 is less than 6
 
   if(isMet) {
     LOGE("LIC0isMet returned true when it should have been false");
@@ -46,22 +47,34 @@ void testLIC0isMet() {
   }
 
   // Changing order of the points, so that points 1 and 2 are now sqrt(2) units apart
-  X[0] = 10.0;
-  Y[0] = 10.0;
-  X[1] = 1.0;
-  Y[1] = 1.0;
-  X[2] = 2.0;
-  Y[2] = 2.0;
+  // Swap points 1 and 2 so that distances between consecutive points remain the same but point order is different
+  // Makes sure order does not matter
 
-  PARAMETERS.LENGTH1 = 2.0;
-  isMet = LIC0isMet(); // Should return true, since sqrt(2) is less than 2
+  X[0] = 10.0;
+  Y[0] = 2.0;
+  X[1] = 5.0;
+  Y[1] = 1.0;
+  X[2] = 1.0;
+  Y[2] = 1.0;
+
+  PARAMETERS.LENGTH1 = 4.0;
+  isMet = LIC0isMet(); // Should return true sice 5 > 4
 
   if(!isMet) {
     LOGE("LIC0isMet returned false when it should have been true");
   }
 
-  PARAMETERS.LENGTH1 = 1.0;
-  isMet = LIC0isMet(); // Should return false, since sqrt(2) is more than 1
+
+  PARAMETERS.LENGTH1 = 6.0;
+  isMet = LIC0isMet(); // Should return false, since 5 < 6
+
+  if(isMet) {
+    LOGE("LIC0isMet returned true when it should have been false");
+  }
+
+  // Make sure invalid length input returns false
+  PARAMETERS.LENGTH1 = -1.0;
+  isMet = LIC0isMet(); // Should return false, since LENGTH1 needs to be >= 0
 
   if(isMet) {
     LOGE("LIC0isMet returned true when it should have been false");
@@ -328,72 +341,31 @@ void testLIC4isMet() {
  */
 void testLIC5isMet() {
   /*
-  testcase 1: one distance greater than DIST
-    X = {1, 2.5, 3, 3}
-    Y = {1, 1, 3, 1}
-    NUMPOINTS = 4
-    NPTS = 4
-    DIST = 0.8
-  expected return: true
-  */
-  X[0] = 1; X[1] = 2.5; X[2] = 3; X[3] = 3;
-  Y[0] = 1; Y[1] = 1; Y[2] = 3; Y[3] = 1;
-  NUMPOINTS = 4;
-  PARAMETERS.NPTS = 4;
-  PARAMETERS.DIST = 0.8;
-  if(!LIC5isMet()) {
-    LOGE("FAILURE: testLIC5isMet. Expected: true.");
-  }
-  /*
-  testcase 2: all distance smaller than DIST
-    X = {1, 2, 2.5, 5}
-    Y = {1, 2, 1, 1}
-    NUMPOINTS = 4
-    NPTS = 4
-    DIST = 3
-  expected return: false
-  */
-  X[0] = 1; X[1] = 2; X[2] = 2.5; X[3] = 5;
-  Y[0] = 1; Y[1] = 2; Y[2] = 1; Y[3] = 1;
-  NUMPOINTS = 4;
-  PARAMETERS.NPTS = 4;
-  PARAMETERS.DIST = 3;
-  if(LIC5isMet()) {
-    LOGE("FAILURE: testLIC5isMet. Expected: false.");
-  }
-  /*
-  testcase 3: a case that first and last point are identical
-    X = {0, 2, 0, 2}
-    Y = {0, 0, 0, 0}
-    NUMPOINTS = 4
-    N_PTS = 3
-    DIST = 1.5
-  expected return: true
-  */
-  X[0] = 0; X[1] = 2; X[2] = 0; X[3] = 2;
-  Y[0] = 0; Y[1] = 0; Y[2] = 0; Y[3] = 0;
-  NUMPOINTS = 4;
-  PARAMETERS.NPTS = 3;
-  PARAMETERS.DIST = 1.5;
-  if(!LIC5isMet()) {
-    LOGE("FAILURE: testLIC5isMet. Expected: true.");
-  }
-  /*
-  testcase 4: NUMPOINTS < 3
-    X = {0, 2, 0, 2}
-    Y = {0, 0, 0, 0}
+  testcase 1: X[i+1] - X[i] < 0
+    X = {1, 0}
+    Y = {1, 1}
     NUMPOINTS = 2
-    N_PTS = 3
-    DIST = 1.5
+  expected return: true
+  */
+  X[0] = 1; X[1] = 0;
+  Y[0] = 1; Y[1] = 1;
+  NUMPOINTS = 2;
+
+  if(!LIC5isMet()) {
+    LOGE("FAILURE, testcase 1. Expected: true.");
+  }
+  /*
+  testcase 2: X[i+1] - X[i] > 0
+    X = {0, 1}
+    Y = {1, 1}
+    NUMPOINTS = 2
   expected return: false
   */
-  X[0] = 0; X[1] = 2; X[2] = 0; X[3] = 2;
-  Y[0] = 0; Y[1] = 0; Y[2] = 0; Y[3] = 0;
+  X[0] = 0; X[1] = 1;
+  Y[0] = 1; Y[1] = 1;
   NUMPOINTS = 2;
-  PARAMETERS.NPTS = 3;
-  PARAMETERS.DIST = 1.5;
   if(LIC5isMet()) {
-    LOGE("FAILURE: testLIC5isMet. Expected: false.");
+    LOGE("FAILURE, testcase 2. Expected: false.");
   }
 }
 
