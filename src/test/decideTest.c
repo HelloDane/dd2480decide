@@ -66,9 +66,6 @@ void decideTestPositive() {
     }
     LOGE("DECIDE decided not to launch when it should have");
   }
-  else {
-    printf("DECIDE passed the positive test!\n");
-  }
 }
 
 /**
