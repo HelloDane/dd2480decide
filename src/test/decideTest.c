@@ -8,25 +8,22 @@
  * 
  */
 void decideTestPositive() {
-  // If NUMPOINTS is 2, then LICs 2, 3, 6, 7, 8, 9, 10, 11, 12, 13, and 14 should automatically not be met.
-  // LIC 0 should be met if the two points are placed closer than LENGTH1 units apart.
-  // LIC 1 should be met if the two points are closer than RADIUS1*2 units apart.
-  // LIC 4 should be met if the two points are placed in different quadrants, and Q_PTS = 2 and QUADS = 2.
-  // LIC 5 should be met if the second point has a higher x-value than the first point
-  // To fulfill LICs 0, 1, 4 and 5 while failing the rest we can 
-  // place p0 at (-1, 1) and p1 at (1, 1)
-  // This results in the distance between them being 2 units, so let LENGTH1 be 3 units, and LIC0 is met
-  // Set RADIUS1 to 2, because the points can be contained within a circle of diameter 4, so LIC1 is met.
-  // LIC4 is met since the points are in different quadrants and QPTS = 2 and QUADS = 2.
-  // LIC5 is met since the second point has a higher x-value than the first.
+  // If NUMPOINTS is 2, then LICs 1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 13, and 14 should automatically not be met.
+  // LIC 0 should be met if the two points are placed further than LENGTH1 units apart.
+  // LIC 4 should be met if the two points are placed in different quadrants, and Q_PTS = 2 and QUADS = 1.
+  // LIC 5 should be met if the second point has a lower x-value than the first point
+  // To fulfill LICs 0, 4 and 5 while failing the rest we can 
+  // place p0 at (1, 1) and p1 at (-1, 1)
+  // This results in the distance between them being 2 units, so let LENGTH1 be 1 units, and LIC0 is met
+  // LIC4 is met since the points are in different quadrants and QPTS = 2 and QUADS = 1.
+  // LIC5 is met since the second point has a lower x-value than the first.
   NUMPOINTS = 2;
   PARAMETERS.QPTS = 2;
-  PARAMETERS.QUADS = 2;
-  PARAMETERS.LENGTH1 = 3;
-  PARAMETERS.RADIUS1 = 2;
-  X[0] = -1;
+  PARAMETERS.QUADS = 1;
+  PARAMETERS.LENGTH1 = 1;
+  X[0] = 1;
   Y[0] = 1;
-  X[1] = 1;
+  X[1] = -1;
   Y[1] = 1;
 
   // Set LCM matrix so that the cells representing the relationship between two LICs that are not met is NOTUSED
@@ -37,7 +34,6 @@ void decideTestPositive() {
     LICisMet[i] = false;
   }
   LICisMet[0] = true;
-  LICisMet[1] = true;
   LICisMet[4] = true;
   LICisMet[5] = true;
 
@@ -55,6 +51,11 @@ void decideTestPositive() {
 
       LCM[i][j] = NOTUSED;
     }
+  }
+
+  // Set the PUV input vector to enable all LICs
+  for(int i = 0; i < 15; i ++) {
+    PUV[i] = true;
   }
 
   DECIDE();
