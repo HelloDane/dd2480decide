@@ -151,6 +151,103 @@ void decideTestNegative() {
  * 
  */
 void decideTestInvalid() {
+  /*Testcase 1: Adapt decideTestPositive() code and modify QPTS to invalid -1
+    should make the program DECIDE not to launch*/
+  NUMPOINTS = 2;// INVALID
+  PARAMETERS.QPTS = -1;
+  PARAMETERS.QUADS = 1;
+  PARAMETERS.LENGTH1 = 1;
+  X[0] = 1;
+  Y[0] = 1;
+  X[1] = -1;
+  Y[1] = 1;
+
+  boolean LICisMet[15];
+  for(int i = 0; i < 15; i ++) {
+    LICisMet[i] = false;
+  }
+  LICisMet[0] = true;
+  LICisMet[4] = true;
+  LICisMet[5] = true;
+
+  for(int i = 0; i < 15; i ++) {
+    for(int j = 0; j < 15; j ++) {
+      if(LICisMet[i] && LICisMet[j]) {
+        LCM[i][j] = ANDD;
+        continue;
+      }
+
+      if((LICisMet[i] && !LICisMet[j]) || (!LICisMet[i] && LICisMet[j])) {
+        LCM[i][j] = ORR;
+        continue;
+      }
+
+      LCM[i][j] = NOTUSED;
+    }
+  }
+
+  // Set the PUV input vector to enable all LICs
+  for(int i = 0; i < 15; i ++) {
+    PUV[i] = true;
+  }
+
+  DECIDE();
+
+  if(LAUNCH == 0) {
+    printf("DECIDE passed the PARAMETERS invalid test!\n");
+  }
+  else {
+    LOGE("FAILURE: input invalid but the program still decide to launch.");
+  }
+
+  /*Testcase 2: Adapt decideTestPositive() code and modify NUMPOINTS to invalid 103
+    should make the program DECIDE not to launch*/
+  NUMPOINTS = 103; // INVALID
+  PARAMETERS.QPTS = 2;
+  PARAMETERS.QUADS = 1;
+  PARAMETERS.LENGTH1 = 1;
+  X[0] = 1;
+  Y[0] = 1;
+  X[1] = -1;
+  Y[1] = 1;
+
+  for(int i = 0; i < 15; i ++) {
+    LICisMet[i] = false;
+  }
+  LICisMet[0] = true;
+  LICisMet[4] = true;
+  LICisMet[5] = true;
+
+  for(int i = 0; i < 15; i ++) {
+    for(int j = 0; j < 15; j ++) {
+      if(LICisMet[i] && LICisMet[j]) {
+        LCM[i][j] = ANDD;
+        continue;
+      }
+
+      if((LICisMet[i] && !LICisMet[j]) || (!LICisMet[i] && LICisMet[j])) {
+        LCM[i][j] = ORR;
+        continue;
+      }
+
+      LCM[i][j] = NOTUSED;
+    }
+  }
+
+  // Set the PUV input vector to enable all LICs
+  for(int i = 0; i < 15; i ++) {
+    PUV[i] = true;
+  }
+
+  DECIDE();
+
+  if(LAUNCH == 0) {
+    printf("DECIDE passed the NUMPOINTS invalid test!\n");
+  }
+  else {
+    LOGE("FAILURE: input invalid but the program still decide to launch.");
+  }
+
 
 }
 
