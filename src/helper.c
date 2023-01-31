@@ -5,6 +5,17 @@ double distance(double x1, double y1, double x2, double y2) {
 }
 
 double radius(double x1, double y1, double x2, double y2, double x3, double y3) {
+  if(DOUBLECOMPARE(x1, x2) == EQ  && DOUBLECOMPARE(y1, y2) == EQ && DOUBLECOMPARE(x2, x3) == EQ && DOUBLECOMPARE(y2, y3) == EQ) {
+    // 3 points overlap
+    return 0;
+  }
+  else if(DOUBLECOMPARE(x1, x2) == EQ  && DOUBLECOMPARE(y1, y2) == EQ) {
+    return distance(x1, y1, x3, y3) / 2.0;
+  }
+  else if(DOUBLECOMPARE(x2, x3) == EQ && DOUBLECOMPARE(y2, y3) == EQ) {
+    return distance(x2, y2, x1, y1) / 2.0;
+  }
+
   double a=((y2-y1)*(y3*y3-y1*y1+x3*x3-x1*x1)-(y3-y1)*(y2*y2-y1*y1+x2*x2-x1*x1))/(2.0*((x3-x1)*(y2-y1)-(x2-x1)*(y3-y1)));
   double b=((x2-x1)*(x3*x3-x1*x1+y3*y3-y1*y1)-(x3-x1)*(x2*x2-x1*x1+y2*y2-y1*y1))/(2.0*((y3-y1)*(x2-x1)-(y2-y1)*(x3-x1)));
   double radius=sqrt((x1-a)*(x1-a)+(y1-b)*(y1-b));

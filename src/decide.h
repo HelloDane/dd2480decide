@@ -97,6 +97,9 @@ boolean LIC12isMet();
 boolean LIC13isMet();
 boolean LIC14isMet();
 void testLICs();
+void testHelpers();
+void testDistance();
+void testRadius();
 
 void calculateCMV();
 void calculatePUM();
