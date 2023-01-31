@@ -30,22 +30,6 @@ void testLIC0isMet() {
     LOGE("LIC0isMet returned true when it should have been false");
   }
 
-
-  // Changing order of the points
-  X[0] = 1.0;
-  Y[0] = 1.0;
-  X[1] = 10.0;
-  Y[1] = 10.0;
-  X[2] = 2.0;
-  Y[2] = 2.0;
-
-  PARAMETERS.LENGTH1 = 2.0;
-  isMet = LIC0isMet(); // Should return false, since consecutive points are now far from each other
-
-  if(isMet) {
-    LOGE("LIC0isMet returned true when it should have been false");
-  }
-
   // Changing order of the points, so that points 1 and 2 are now sqrt(2) units apart
   // Swap points 1 and 2 so that distances between consecutive points remain the same but point order is different
   // Makes sure order does not matter
