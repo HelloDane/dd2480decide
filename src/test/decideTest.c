@@ -72,27 +72,28 @@ void decideTestPositive() {
  * 
  */
 void decideTestNegative() {
-  restoreGlobalVars();
+  restoreGlobalVars(); //Reset all DECIDE parameters. Booleans are set to false, doubles to 0.0 etc
   
   //Parameters are set so that a known set of LIC conditions are expected to pass as true
   NUMPOINTS = 3;
   PARAMETERS.QPTS = 2;
-  PARAMETERS.QUADS = 2;
+  PARAMETERS.QUADS = 1;
   PARAMETERS.LENGTH1 = 3;
   PARAMETERS.RADIUS1 = 2;
   X[0] = -1; X[1] = 1; X[2] = 2;
   Y[0] = 1; Y[1] = 1; Y[2] = 2;
 
-  //It is expected that the following LICs are true: 0,2,3,11,12. All remaining LICs are expected to be false
+  //It is expected that the following LICs are true: 2,3,4,12. All remaining LICs are expected to be false
   //We expect this to be the case if all LIC unit tests pass, implying that all LIC functions are implemented correctly
+  //Note that the majority of all parameters are set to false/zero, and most conditions require some non-zero parameters
+
   boolean LICExpectedValue[15];
   for(int i = 0; i < 15; i++) {
     LICExpectedValue[i] = false;
   }
-  LICExpectedValue[0] = true; 
   LICExpectedValue[2] = true; 
   LICExpectedValue[3] = true; 
-  LICExpectedValue[11] = true; 
+  LICExpectedValue[4] = true; 
   LICExpectedValue[12] = true; 
 
   // Set LCM matrix so that the cells representing the relationship between two LICs that are not met is NOTUSED
