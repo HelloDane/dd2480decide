@@ -94,7 +94,7 @@ boolean LIC2isMet() {
 
 /**
  * Determines whether LIC 3 is met or not
- * LIC 3 is met if there exists there consecutive points which form a triangle with an area greater than PARAMETERS.AREA1 
+ * LIC 3 is met if there exists there consecutive points which form a triangle with an area greater than PARAMETERS.AREA1
  * @return boolean representing whether LIC 3 is met or not
  */
 boolean LIC3isMet() {
@@ -112,7 +112,7 @@ boolean LIC3isMet() {
     double y_3 = Y[i + 2];
 
     double area = 1.0/2 * fabs(x_1*(y_2 - y_3) + x_2*(y_3 - y_1) + x_3*(y_1 - y_2));
-    
+
     if(area > PARAMETERS.AREA1) {
       return true;
     }
@@ -134,7 +134,7 @@ boolean LIC4isMet() {
   if (PARAMETERS.QPTS < 2|| PARAMETERS.QPTS > NUMPOINTS || PARAMETERS.QUADS < 1|| PARAMETERS.QUADS > 3) {
     return false; //Parameters are invalid.
   }
-  
+
   boolean pointInQuad[4]; //Index i refers to quadrant (i+1)
 
   for (int i = 0; i <= NUMPOINTS - PARAMETERS.QPTS; i++) {
@@ -142,7 +142,7 @@ boolean LIC4isMet() {
       pointInQuad[j] = false;
     }
 
-    for (int j = 0; j < PARAMETERS.QPTS; j++) { 
+    for (int j = 0; j < PARAMETERS.QPTS; j++) {
 
       double x = X[i+j]; //Highest possible index is (NUMPOINTS - QPTS + (QPTS-1)) = NUMPOINTS-1
       double y = Y[i+j];
@@ -151,18 +151,18 @@ boolean LIC4isMet() {
       // I: (+,+), II = (-,+), III = (+,-), IV = (-,-)
 
         if (y >= 0) {
-          if (x >= 0) { 
+          if (x >= 0) {
             pointInQuad[0] = true; //I: (+,+)
           }
-          else { 
+          else {
             pointInQuad[1] = true; //II = (-,+)
           }
         }
         else {
-          if (x >= 0) { 
+          if (x >= 0) {
             pointInQuad[2] = true; //III = (+,-)
           }
-          else { 
+          else {
             pointInQuad[3] = true; //IV = (-,-)
           }
         }
@@ -188,45 +188,14 @@ boolean LIC4isMet() {
  * @return boolean representing whether LIC 5 is met or not
  */
 boolean LIC5isMet() {
-  if(NUMPOINTS < 3) { // The condition is not met when NUMPOINTS < 3
+  if(NUMPOINTS < 2) { // The condition is not met when NUMPOINTS < 3
     return false;
   }
-
-  if(PARAMETERS.NPTS < 3 || PARAMETERS.NPTS > NUMPOINTS || PARAMETERS.DIST < 0) { // invalid input
-    LOGE("LIC5 false because of invalid input");
-    return false;
-  }
-
-  for(int i = 0; i <= NUMPOINTS - PARAMETERS.NPTS; i++) { // check each NPTS-points sets
-    double x_first = X[i];
-    double y_first = Y[i];
-    double x_last  = X[i+PARAMETERS.NPTS-1];
-    double y_last  = Y[i+PARAMETERS.NPTS-1];
-
-    if(x_first == x_last && y_first == y_last) { // If the first and last points of these N PTS are identical
-      for(int j = i + 1; j <= i + PARAMETERS.NPTS - 1; j++) {
-        double x_between = X[j];
-        double y_between = Y[j];
-        double distance_to_coincident_point = distance(x_first, y_first, x_between, y_between);//the distance from the coincident point to all other points
-        if(distance_to_coincident_point > PARAMETERS.DIST) {
-          return true;
-        }
-      }
-    }
-    else { // the first and last points of these N PTS arn't identical
-      for(int j = i + 1; j <= i + PARAMETERS.NPTS - 1; j++) { // calculate distance for points between
-        double x_between = X[j];
-        double y_between = Y[j];
-        double numerator = fabs((y_last - y_first)*x_between - (x_last - x_first)*y_between + x_last*y_first - y_last*x_first);
-        double denominator = sqrt(pow(y_last - y_first, 2) + pow(x_last - x_first, 2));
-        double distance_to_line = numerator / denominator;
-        if(distance_to_line > PARAMETERS.DIST) {
-          return true;
-        }    
-      }
+  for (int i = 0; i < NUMPOINTS-1; i++) {
+    if (X[i+1] - X[i] < 0) {
+      return true;
     }
   }
-
   return false;
 }
 
@@ -280,7 +249,7 @@ boolean LIC6isMet() {
         }
         continue;
       }
-      
+
       // Formula defined on https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line under "Line defined by two points"
       double x1 = firstx;
       double y1 = firsty;
@@ -288,9 +257,9 @@ boolean LIC6isMet() {
       double y2 = lasty;
       double x0 = X[j];
       double y0 = Y[j];
-     
+
       double distance = fabs((x2 - x1)*(y1 - y0) - (x1 - x0)*(y2 - y1))/sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-      
+
       if(distance > PARAMETERS.DIST) {
         return true;
       }
@@ -306,14 +275,14 @@ boolean LIC6isMet() {
  * @return boolean representing whether LIC 7 is met or not
  */
 boolean LIC7isMet() {
-  if (NUMPOINTS < 3 || PARAMETERS.KPTS < 1 || PARAMETERS.KPTS > NUMPOINTS-2) { 
+  if (NUMPOINTS < 3 || PARAMETERS.KPTS < 1 || PARAMETERS.KPTS > NUMPOINTS-2) {
     return false; //Invalid parameters
   }
   int kPts = PARAMETERS.KPTS + 1; //+ 1 For indexing purposes.
   for (int i = 0; (i < NUMPOINTS - kPts); i++) {
       if (distance(X[i],Y[i],X[i+kPts],Y[i+kPts]) > PARAMETERS.LENGTH1) {
         return true;
-      } 
+      }
   }
   return false;
 }
@@ -358,7 +327,7 @@ boolean LIC8isMet() {
                 if(max_distance / 2 > PARAMETERS.RADIUS1) { // cannot contain 3 points
                   return true;
                 }
-              } 
+              }
               else if (radius(x1, y1, x2, y2, x3, y3) > PARAMETERS.RADIUS1) {// Check if the three points are not within or on the circle
                   return true;
               }
@@ -418,7 +387,7 @@ boolean LIC9isMet() {
 
     // law of cosine
     double angle = acos((pow(a, 2) + pow(b, 2) - pow(c, 2))/(2*a*b));
-    
+
     if(angle < PI - PARAMETERS.EPSILON || angle > PI + PARAMETERS.EPSILON) {
       return true;
     }
@@ -428,7 +397,7 @@ boolean LIC9isMet() {
 
 /**
  * Determines whether LIC 10 is met or not
- * There exists at least one set of three data points separated by exactly E PTS and F PTS consecutive intervening points, 
+ * There exists at least one set of three data points separated by exactly E PTS and F PTS consecutive intervening points,
  * respectively, that are the vertices of a triangle with area greater than AREA1. The condition is not met when NUMPOINTS < 5.
  * @return boolean representing whether LIC 10 is met or not
  */
@@ -609,7 +578,7 @@ boolean LIC13isMet() {
  * intervening points, respectively, that are the vertices of a triangle with area greater
  * than AREA1. In addition, there exist three data points (which can be the same or different
  * from the three data points just mentioned) separated by exactly E PTS and F PTS consecutive
- * intervening points, respectively, that are the vertices of a triangle with area less than AREA2. 
+ * intervening points, respectively, that are the vertices of a triangle with area less than AREA2.
  * Both parts must be true for the LIC to be true.
  * @return boolean representing whether LIC 14 is met or not
  */

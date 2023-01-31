@@ -294,7 +294,7 @@ void testLIC4isMet() {
 
   X[1] = 1;X[2] = 1; X[3] = 1; X[4] = 1;
   Y[1] = -1;Y[2] = -1; Y[3] = -1; Y[4] = -1;
-            
+
 
   if (LIC4isMet()) {
     LOGE("FAILURE, testcase 3. Expected: false.");
@@ -312,7 +312,7 @@ void testLIC4isMet() {
   PARAMETERS.QUADS = 2;
   X[0] = 0; X[1] = 1;X[2] = -1;
   Y[0] = 0; Y[1] = -1;Y[2] = 1;
-            
+
 
   if (!LIC4isMet()) {
     LOGE("FAILURE, testcase 4. Expected: true.");
@@ -324,72 +324,31 @@ void testLIC4isMet() {
  */
 void testLIC5isMet() {
   /*
-  testcase 1: one distance greater than DIST
-    X = {1, 2.5, 3, 3}
-    Y = {1, 1, 3, 1}
-    NUMPOINTS = 4
-    NPTS = 4
-    DIST = 0.8
-  expected return: true
-  */
-  X[0] = 1; X[1] = 2.5; X[2] = 3; X[3] = 3;
-  Y[0] = 1; Y[1] = 1; Y[2] = 3; Y[3] = 1;
-  NUMPOINTS = 4;
-  PARAMETERS.NPTS = 4;
-  PARAMETERS.DIST = 0.8;
-  if(!LIC5isMet()) {
-    LOGE("testLIC5isMet failed");
-  }
-  /*
-  testcase 2: all distance smaller than DIST
-    X = {1, 2, 2.5, 5}
-    Y = {1, 2, 1, 1}
-    NUMPOINTS = 4
-    NPTS = 4
-    DIST = 3
-  expected return: false
-  */
-  X[0] = 1; X[1] = 2; X[2] = 2.5; X[3] = 5;
-  Y[0] = 1; Y[1] = 2; Y[2] = 1; Y[3] = 1;
-  NUMPOINTS = 4;
-  PARAMETERS.NPTS = 4;
-  PARAMETERS.DIST = 3;
-  if(LIC5isMet()) {
-    LOGE("testLIC5isMet failed");
-  }
-  /*
-  testcase 3: a case that first and last point are identical
-    X = {0, 2, 0, 2}
-    Y = {0, 0, 0, 0}
-    NUMPOINTS = 4
-    N_PTS = 3
-    DIST = 1.5
-  expected return: true
-  */
-  X[0] = 0; X[1] = 2; X[2] = 0; X[3] = 2;
-  Y[0] = 0; Y[1] = 0; Y[2] = 0; Y[3] = 0;
-  NUMPOINTS = 4;
-  PARAMETERS.NPTS = 3;
-  PARAMETERS.DIST = 1.5;
-  if(!LIC5isMet()) {
-    LOGE("testLIC5isMet failed");
-  }
-  /*
-  testcase 4: NUMPOINTS < 3
-    X = {0, 2, 0, 2}
-    Y = {0, 0, 0, 0}
+  testcase 1: X[i+1] - X[i] < 0
+    X = {1, 0}
+    Y = {1, 1}
     NUMPOINTS = 2
-    N_PTS = 3
-    DIST = 1.5
+  expected return: true
+  */
+  X[0] = 1; X[1] = 0;
+  Y[0] = 1; Y[1] = 1;
+  NUMPOINTS = 2;
+
+  if(!LIC5isMet()) {
+    LOGE("FAILURE, testcase 1. Expected: true.");
+  }
+  /*
+  testcase 2: X[i+1] - X[i] > 0
+    X = {0, 1}
+    Y = {1, 1}
+    NUMPOINTS = 2
   expected return: false
   */
-  X[0] = 0; X[1] = 2; X[2] = 0; X[3] = 2;
-  Y[0] = 0; Y[1] = 0; Y[2] = 0; Y[3] = 0;
+  X[0] = 0; X[1] = 1;
+  Y[0] = 1; Y[1] = 1;
   NUMPOINTS = 2;
-  PARAMETERS.NPTS = 3;
-  PARAMETERS.DIST = 1.5;
   if(LIC5isMet()) {
-    LOGE("testLIC5isMet failed");
+    LOGE("FAILURE, testcase 2. Expected: false.");
   }
 }
 
@@ -482,7 +441,7 @@ void testLIC7isMet() {
   if(!LIC7isMet()){
     LOGE("FAILURE: testLIC7isMet, testcase 3. Expected: true.");
   }
-  
+
 }
 
 /**
@@ -495,7 +454,7 @@ void testLIC8isMet() {
     Y = {1, 0, 2, 0, 1}
   expected return: false
   */
-  X[0]=1;X[1]=0;X[2]=2;X[3]=0;X[4]=3; 
+  X[0]=1;X[1]=0;X[2]=2;X[3]=0;X[4]=3;
   Y[0]=1;Y[1]=0;Y[2]=2;Y[3]=0;Y[4]=1;
   PARAMETERS.RADIUS1 = 1;
   PARAMETERS.APTS = 1;
@@ -510,7 +469,7 @@ void testLIC8isMet() {
     Y = {0, 0, 2, 0, 0, -1}
   expected return: true
   */
-  X[0]=0;X[1]=0;X[2]=-2;X[3]=0;X[4]=0;X[5]=-2; 
+  X[0]=0;X[1]=0;X[2]=-2;X[3]=0;X[4]=0;X[5]=-2;
   Y[0]=0;Y[1]=0;Y[2]=0;Y[3]=0;Y[4]=0;Y[5]=-1;
   PARAMETERS.RADIUS1 = 1;
   PARAMETERS.APTS = 1;
@@ -525,7 +484,7 @@ void testLIC8isMet() {
     Y = {1, 0, -3, 0, 0, 3}
   expected return: false
   */
-  X[0]=1;X[1]=0;X[2]=-3;X[3]=0;X[4]=0;X[5]=3; 
+  X[0]=1;X[1]=0;X[2]=-3;X[3]=0;X[4]=0;X[5]=3;
   Y[0]=1;Y[1]=0;Y[2]=-3;Y[3]=0;Y[4]=0;Y[5]=3;
   PARAMETERS.RADIUS1 = 9;
   PARAMETERS.APTS = 1;
@@ -636,7 +595,7 @@ void testLIC10isMet() {
   if (LIC10isMet()) {
     LOGE("FAILURE, testcase 3. Expected: false.");
   }
-  
+
   /*
   testcase 4: Points which can make a big enough triangle exist, but no such points are found with the specified separation.
     NUMPOINTS = 6
@@ -664,7 +623,7 @@ void testLIC10isMet() {
  */
 void testLIC11isMet() {
   /*
-  testcase 1: 
+  testcase 1:
     X = {1, 1, 3}
     Y = {1, 1, 2}
   expected return: true
@@ -677,7 +636,7 @@ void testLIC11isMet() {
     LOGE("testLIC11isMet failed");
   }
   /*
-  testcase 2: 
+  testcase 2:
     X = {3, 1, 1}
     Y = {-1, 11, 2}
   expected return: false
@@ -690,7 +649,7 @@ void testLIC11isMet() {
     LOGE("testLIC11isMet failed");
   }
   /*
-  testcase 3: NUMPOINTS < 3 
+  testcase 3: NUMPOINTS < 3
     X = {3, 1, 1}
     Y = {-1, 11, 2}
   expected return: false
@@ -881,7 +840,7 @@ void testLIC14isMet() {
   testcase 1: area smaller than AREA1
       X = {1, 1, 3, 1, 3}
       Y = {1, 1, 2, 1, -5}
-      
+
   expected return: false
   */
   X[0] = 1;X[1] = 1;X[2] = 3;X[3] = 1;X[4] = 3;
@@ -898,7 +857,7 @@ void testLIC14isMet() {
   testcase 2: area greater than AREA2
       X = {1, 1, 3, 1, 8}
       Y = {1, 1, 2, 1, -5}
-      
+
   expected return: false
   */
   X[0] = 1;X[1] = 1;X[2] = 3;X[3] = 1;X[4] = 8;
@@ -915,7 +874,7 @@ void testLIC14isMet() {
   testcase 3: area between AREA1 and AREA2
       X = {1, 1, 3, 1, 8}
       Y = {1, 1, 2, 1, -5}
-      
+
   expected return: true
   */
   X[0] = 1;X[1] = 1;X[2] = 3;X[3] = 1;X[4] = 3;
