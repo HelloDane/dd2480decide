@@ -5,63 +5,59 @@
  * Tests LIC0isMet using multiple different problem instances
  */
 void testLIC0isMet() {
-  // In the instance below, point 0 and 1 are sqrt(2) units apart
+  // In the instance below, points 0 and 1 are 4 units apart,
+  // points 1 and 2 are 5 units apart and
   NUMPOINTS = 3;
   X[0] = 1.0;
   Y[0] = 1.0;
-  X[1] = 2.0;
-  Y[1] = 2.0;
-  X[2] = 10.0;
-  Y[2] = 10.0;
-
-  PARAMETERS.LENGTH1 = 2.0;
-  boolean isMet = LIC0isMet(); // Should return true, since sqrt(2) is less than 2.0
-
-  if(!isMet) {
-    LOGE("LIC0isMet returned false when it should have been true");
-  }
-
-
-  PARAMETERS.LENGTH1 = 1.0;
-  isMet = LIC0isMet(); // Should return false, since sqrt(2) is more than 1.0
-
-  if(isMet) {
-    LOGE("LIC0isMet returned true when it should have been false");
-  }
-
-
-  // Changing order of the points
-  X[0] = 1.0;
-  Y[0] = 1.0;
-  X[1] = 10.0;
-  Y[1] = 10.0;
-  X[2] = 2.0;
-  Y[2] = 2.0;
-
-  PARAMETERS.LENGTH1 = 2.0;
-  isMet = LIC0isMet(); // Should return false, since consecutive points are now far from each other
-
-  if(isMet) {
-    LOGE("LIC0isMet returned true when it should have been false");
-  }
-
-  // Changing order of the points, so that points 1 and 2 are now sqrt(2) units apart 
-  X[0] = 10.0;
-  Y[0] = 10.0;
-  X[1] = 1.0;
+  X[1] = 5.0;
   Y[1] = 1.0;
-  X[2] = 2.0;
+  X[2] = 10.0;
   Y[2] = 2.0;
 
-  PARAMETERS.LENGTH1 = 2.0;
-  isMet = LIC0isMet(); // Should return true, since sqrt(2) is less than 2
+  PARAMETERS.LENGTH1 = 4.0;
+  boolean isMet = LIC0isMet(); // Should return true, 5 is greater than 4
 
   if(!isMet) {
     LOGE("LIC0isMet returned false when it should have been true");
   }
 
-  PARAMETERS.LENGTH1 = 1.0;
-  isMet = LIC0isMet(); // Should return false, since sqrt(2) is more than 1
+
+  PARAMETERS.LENGTH1 = 6.0;
+  isMet = LIC0isMet(); // Should return false, since 5 is less than 6
+
+  if(isMet) {
+    LOGE("LIC0isMet returned true when it should have been false");
+  }
+
+
+  // Swap points 1 and 2 so that distances between consecutive points remain the same but point order is different
+  // Makes sure order does not matter
+  X[0] = 10.0;
+  Y[0] = 2.0;
+  X[1] = 5.0;
+  Y[1] = 1.0;
+  X[2] = 1.0;
+  Y[2] = 1.0;
+
+  PARAMETERS.LENGTH1 = 4.0;
+  isMet = LIC0isMet(); // Should return true sice 5 > 4
+
+  if(!isMet) {
+    LOGE("LIC0isMet returned false when it should have been true");
+  }
+
+
+  PARAMETERS.LENGTH1 = 6.0;
+  isMet = LIC0isMet(); // Should return false, since 5 < 6
+
+  if(isMet) {
+    LOGE("LIC0isMet returned true when it should have been false");
+  }
+
+  // Make sure invalid length input returns false
+  PARAMETERS.LENGTH1 = -1.0;
+  isMet = LIC0isMet(); // Should return false, since LENGTH1 needs to be >= 0
 
   if(isMet) {
     LOGE("LIC0isMet returned true when it should have been false");
